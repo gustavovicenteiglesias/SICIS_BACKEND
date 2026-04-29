@@ -36,6 +36,7 @@ class Indicador extends Model
     public function normas()
     {
         return $this->belongsToMany(Norma::class, 'indicadores_normas', 'indicador_id', 'norma_id')
+            ->withPivot(['codigo_en_norma', 'nombre_en_norma'])
             ->withTimestamps();
     }
 

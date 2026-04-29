@@ -16,7 +16,9 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
 
-        $usuario = Usuario::where('nombre_usuario', $request->usuario)->first();
+        $usuario = Usuario::with('roles')
+            ->where('nombre_usuario', $request->usuario)
+            ->first();
 
         if (!$usuario || !Hash::check($request->password, $usuario->password)) {
             throw ValidationException::withMessages([
@@ -30,19 +32,41 @@ class AuthController extends Controller
             ]);
         }
 
-        $token = $usuario->createToken('react-frontend')->plainTextToken;
+        $token = $usuario->createToken('sicis-api')->plainTextToken;
         $usuario->update(['ultimo_acceso_at' => now()]);
-
-        $rol = $usuario->roles()->first();
 
         return response()->json([
             'mensaje' => 'Login exitoso',
             'token' => $token,
-            'usuario' => [
-                'nombre' => $usuario->nombre,
-                'apellido' => $usuario->apellido,
-                'rol' => $rol?->codigo,
-            ],
+            'usuario' => $this->usuarioResponse($usuario),
         ]);
+    }
+
+    public function perfil(Request $request)
+    {
+        $usuario = $request->user()->load('roles');
+
+        return response()->json([
+            'usuario' => $this->usuarioResponse($usuario),
+        ]);
+    }
+
+    private function usuarioResponse(Usuario $usuario): array
+    {
+        return [
+            'id' => $usuario->id,
+            'nombre_usuario' => $usuario->nombre_usuario,
+            'nombre' => $usuario->nombre,
+            'apellido' => $usuario->apellido,
+            'email' => $usuario->email,
+            'activo' => $usuario->activo,
+            'roles' => $usuario->roles
+                ->map(fn ($rol) => [
+                    'id' => $rol->id,
+                    'codigo' => $rol->codigo,
+                    'nombre' => $rol->nombre,
+                ])
+                ->values(),
+        ];
     }
 }

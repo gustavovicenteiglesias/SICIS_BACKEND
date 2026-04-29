@@ -10,30 +10,38 @@ class UsuarioSeeder extends Seeder
 {
     public function run(): void
     {
-        $areaId = DB::table('areas_municipales')->insertGetId([
-            'nombre' => 'Direccion de Modernizacion',
-            'descripcion' => 'Area responsable de la carga operativa inicial',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        $now = now();
+        $areaId = DB::table('areas_municipales')
+            ->where('nombre', 'Direccion de Modernizacion')
+            ->value('id');
 
-        $usuarioId = DB::table('usuarios')->insertGetId([
-            'area_municipal_id' => $areaId,
-            'nombre_usuario' => 'admin',
-            'nombre' => 'Admin',
-            'apellido' => 'Sistema',
-            'email' => 'admin@lujan.gob.ar',
-            'password' => Hash::make('12345678'),
-            'activo' => true,
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        DB::table('usuarios')->updateOrInsert(
+            ['nombre_usuario' => 'admin'],
+            [
+                'area_municipal_id' => $areaId,
+                'nombre' => 'Admin',
+                'apellido' => 'Sistema',
+                'email' => 'admin@lujan.gob.ar',
+                'password' => Hash::make('12345678'),
+                'activo' => true,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ]
+        );
 
-        DB::table('usuarios_roles')->insert([
-            'usuario_id' => $usuarioId,
-            'rol_id' => 1,
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        $usuarioId = DB::table('usuarios')
+            ->where('nombre_usuario', 'admin')
+            ->value('id');
+
+        DB::table('usuarios_roles')->updateOrInsert(
+            [
+                'usuario_id' => $usuarioId,
+                'rol_id' => 1,
+            ],
+            [
+                'created_at' => $now,
+                'updated_at' => $now,
+            ]
+        );
     }
 }

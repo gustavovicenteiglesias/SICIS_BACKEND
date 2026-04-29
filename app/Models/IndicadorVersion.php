@@ -28,6 +28,21 @@ class IndicadorVersion extends Model
         return $this->belongsTo(Indicador::class);
     }
 
+    public function tipoIndicador()
+    {
+        return $this->belongsTo(TipoIndicador::class);
+    }
+
+    public function unidadMedida()
+    {
+        return $this->belongsTo(UnidadMedida::class);
+    }
+
+    public function periodicidad()
+    {
+        return $this->belongsTo(Periodicidad::class);
+    }
+
     public function variables()
     {
         return $this->hasMany(IndicadorVariable::class);

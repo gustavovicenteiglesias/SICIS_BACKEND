@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Collection;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -47,5 +48,19 @@ class Usuario extends Authenticatable
         return $this->belongsToMany(Rol::class, 'usuarios_roles', 'usuario_id', 'rol_id')
             ->wherePivotNull('deleted_at')
             ->withTimestamps();
+    }
+
+    public function permisos(): Collection
+    {
+        return $this->roles
+            ->loadMissing('permisos')
+            ->flatMap(fn (Rol $rol) => $rol->permisos)
+            ->unique('id')
+            ->values();
+    }
+
+    public function hasPermission(string $codigo): bool
+    {
+        return $this->permisos()->contains('codigo', $codigo);
     }
 }

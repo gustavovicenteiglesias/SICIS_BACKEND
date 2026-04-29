@@ -20,4 +20,14 @@ class IndicadorVariable extends Model
             'orden' => 'integer',
         ];
     }
+
+    public function indicadorVersion()
+    {
+        return $this->belongsTo(IndicadorVersion::class);
+    }
+
+    public function datoFuente()
+    {
+        return $this->belongsTo(DatoFuente::class);
+    }
 }
