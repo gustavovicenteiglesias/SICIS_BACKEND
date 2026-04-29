@@ -253,6 +253,12 @@ php artisan migrate:fresh --seed
 Si Git marca `dubious ownership`:
 
 ```bash
+git config --global --add safe.directory <RUTA_ABSOLUTA_DEL_PROYECTO>
+```
+
+Ejemplo:
+
+```bash
 git config --global --add safe.directory C:/Users/Gustavo/OneDrive/Documentos/Laravel/sicis-backend
 ```
 
