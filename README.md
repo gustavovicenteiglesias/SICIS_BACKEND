@@ -16,8 +16,8 @@ En Windows, si `php` no responde en PowerShell, hay que agregar el ejecutable de
 Clonar el repositorio:
 
 ```bash
-git clone https://github.com/gustavovicenteiglesias/SICIS_BACKEND.git
-cd SICIS_BACKEND
+git clone <URL_DEL_REPOSITORIO>
+cd <CARPETA_DEL_PROYECTO>
 ```
 
 Instalar dependencias PHP:
