@@ -60,3 +60,24 @@
 6. Las normas se asignan dentro del `POST/PUT` de indicadores mediante el arreglo `normas`.
 7. Las variables se administran con endpoints propios anidados bajo la version metodologica.
 8. No se permiten versiones activas superpuestas para un mismo indicador.
+
+## Datos Fuente API
+
+1. Los endpoints del modulo datos fuente viven bajo `/api/datos-fuente`.
+2. Se separan permisos de consulta, configuracion, carga y validacion.
+3. La validacion de valores se expone como accion explicita sobre el valor cargado.
+4. Las evidencias se administran como recurso hijo de `datos_fuente_valores`.
+5. Las configuraciones API se administran como recurso hijo de `datos_fuente`.
+6. El contrato propuesto vive en `docs/contratos-api-datos-fuente.md`.
+7. Los endpoints de configuracion y lectura de conectores API se protegen con `datos_fuente.configurar`.
+8. La accion `importar` se protege con `datos_fuente.cargar`.
+9. Si la API no devuelve jurisdiccion o periodo en un path usable, `importar` admite fallbacks por request.
+
+## Seguridad Interna API
+
+1. Los endpoints administrativos de usuarios, roles y permisos viven bajo `/api/seguridad`.
+2. La gestion de usuarios requiere `usuarios.gestionar`.
+3. La gestion de roles y permisos requiere `roles.gestionar`.
+4. La asignacion de roles se resuelve mediante endpoints propios sobre `usuarios_roles`.
+5. Los permisos efectivos de usuario se exponen como lectura diagnostica.
+6. El contrato propuesto vive en `docs/contratos-api-usuarios-roles.md`.

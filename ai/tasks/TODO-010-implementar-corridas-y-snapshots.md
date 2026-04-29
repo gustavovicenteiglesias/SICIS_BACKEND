@@ -15,6 +15,8 @@ Implementar el circuito inicial de corridas, snapshots de datos y snapshots de i
 - [ ] Persistir snapshot de datos usados.
 - [ ] Persistir snapshot de resultados de indicadores.
 - [ ] Definir endpoints de aprobacion y publicacion.
+- [ ] Proteger ejecucion, aprobacion y publicacion con permisos diferenciados.
+- [ ] Dejar trazabilidad minima de errores o resultados observados.
 
 ## Archivos Involucrados
 
@@ -27,3 +29,5 @@ Implementar el circuito inicial de corridas, snapshots de datos y snapshots de i
 ## Notas
 
 - Resolver primero el circuito minimo, no el motor completo de formulas.
+- Depende de tener indicadores y datos fuente operativos.
+- Si el motor de formula completo no entra, priorizar un ejecutor minimo y deterministicamente trazable.

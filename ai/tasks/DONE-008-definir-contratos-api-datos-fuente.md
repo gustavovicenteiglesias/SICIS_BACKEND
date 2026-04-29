@@ -2,7 +2,7 @@
 
 ## Estado
 
-TODO
+DONE
 
 ## Objetivo
 
@@ -10,11 +10,11 @@ Diseñar el contrato API para datos fuente, valores, evidencias y configuracione
 
 ## Criterios De Aceptacion
 
-- [ ] Documentar endpoints para datos fuente.
-- [ ] Documentar endpoints para carga manual de valores.
-- [ ] Documentar endpoints para evidencias.
-- [ ] Documentar endpoints para configuracion de consumo API.
-- [ ] Definir roles y permisos de carga, validacion y consulta.
+- [x] Documentar endpoints para datos fuente.
+- [x] Documentar endpoints para carga manual de valores.
+- [x] Documentar endpoints para evidencias.
+- [x] Documentar endpoints para configuracion de consumo API.
+- [x] Definir roles y permisos de carga, validacion y consulta.
 
 ## Archivos Involucrados
 
@@ -28,3 +28,6 @@ Diseñar el contrato API para datos fuente, valores, evidencias y configuracione
 
 - Hay que contemplar carga manual y fallback para importaciones externas.
 - No implementar hasta aprobar contrato.
+- Se propuso `POST /validar` como accion explicita sobre cada valor.
+- Se propuso separar permisos de ver, configurar, cargar y validar.
+- Se documento `probar` e `importar` para conectores API sin cerrar aun la estrategia exacta de persistencia.

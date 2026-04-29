@@ -17,4 +17,9 @@ class DatoFuenteApiPath extends Model
             'activo' => 'boolean',
         ];
     }
+
+    public function apiConfig()
+    {
+        return $this->belongsTo(DatoFuenteApiConfig::class, 'dato_fuente_api_config_id');
+    }
 }

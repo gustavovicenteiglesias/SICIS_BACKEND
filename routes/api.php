@@ -15,9 +15,19 @@ use App\Http\Controllers\Catalogos\PeriodicidadController;
 use App\Http\Controllers\Catalogos\TipoIndicadorController;
 use App\Http\Controllers\Catalogos\TipoJurisdiccionController;
 use App\Http\Controllers\Catalogos\UnidadMedidaController;
+use App\Http\Controllers\DatosFuente\DatoFuenteController;
+use App\Http\Controllers\DatosFuente\DatoFuenteApiConfigController;
+use App\Http\Controllers\DatosFuente\DatoFuenteApiPathController;
+use App\Http\Controllers\DatosFuente\DatoFuenteValorController;
+use App\Http\Controllers\DatosFuente\EvidenciaDatoController;
 use App\Http\Controllers\Indicadores\IndicadorController;
 use App\Http\Controllers\Indicadores\IndicadorVariableController;
 use App\Http\Controllers\Indicadores\IndicadorVersionController;
+use App\Http\Controllers\Seguridad\RolController;
+use App\Http\Controllers\Seguridad\RolPermisoController;
+use App\Http\Controllers\Seguridad\UsuarioController;
+use App\Http\Controllers\Seguridad\UsuarioPermisoController;
+use App\Http\Controllers\Seguridad\UsuarioRolController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/login', [AuthController::class, 'login']);
@@ -120,5 +130,69 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('{indicadorId}/versiones/{versionId}/variables', [IndicadorVariableController::class, 'store']);
         Route::put('{indicadorId}/versiones/{versionId}/variables/{id}', [IndicadorVariableController::class, 'update']);
         Route::delete('{indicadorId}/versiones/{versionId}/variables/{id}', [IndicadorVariableController::class, 'destroy']);
+    });
+
+    Route::prefix('datos-fuente')->middleware('permission:datos_fuente.ver')->group(function () {
+        Route::get('/', [DatoFuenteController::class, 'index']);
+        Route::get('{id}', [DatoFuenteController::class, 'show']);
+        Route::get('{datoFuenteId}/valores', [DatoFuenteValorController::class, 'index']);
+        Route::get('{datoFuenteId}/valores/{id}', [DatoFuenteValorController::class, 'show']);
+        Route::get('{datoFuenteId}/valores/{valorId}/evidencias', [EvidenciaDatoController::class, 'index']);
+        Route::get('{datoFuenteId}/valores/{valorId}/evidencias/{id}', [EvidenciaDatoController::class, 'show']);
+    });
+
+    Route::prefix('datos-fuente')->middleware('permission:datos_fuente.configurar')->group(function () {
+        Route::post('/', [DatoFuenteController::class, 'store']);
+        Route::put('{id}', [DatoFuenteController::class, 'update']);
+        Route::delete('{id}', [DatoFuenteController::class, 'destroy']);
+        Route::get('{datoFuenteId}/api-configs', [DatoFuenteApiConfigController::class, 'index']);
+        Route::post('{datoFuenteId}/api-configs', [DatoFuenteApiConfigController::class, 'store']);
+        Route::get('{datoFuenteId}/api-configs/{id}', [DatoFuenteApiConfigController::class, 'show']);
+        Route::put('{datoFuenteId}/api-configs/{id}', [DatoFuenteApiConfigController::class, 'update']);
+        Route::delete('{datoFuenteId}/api-configs/{id}', [DatoFuenteApiConfigController::class, 'destroy']);
+        Route::post('{datoFuenteId}/api-configs/{id}/probar', [DatoFuenteApiConfigController::class, 'probar']);
+        Route::get('{datoFuenteId}/api-configs/{id}/importaciones', [DatoFuenteApiConfigController::class, 'importaciones']);
+        Route::get('{datoFuenteId}/api-configs/{id}/importaciones/{importacionId}', [DatoFuenteApiConfigController::class, 'showImportacion']);
+        Route::get('{datoFuenteId}/api-configs/{configId}/paths', [DatoFuenteApiPathController::class, 'index']);
+        Route::post('{datoFuenteId}/api-configs/{configId}/paths', [DatoFuenteApiPathController::class, 'store']);
+        Route::put('{datoFuenteId}/api-configs/{configId}/paths/{id}', [DatoFuenteApiPathController::class, 'update']);
+        Route::delete('{datoFuenteId}/api-configs/{configId}/paths/{id}', [DatoFuenteApiPathController::class, 'destroy']);
+    });
+
+    Route::prefix('datos-fuente')->middleware('permission:datos_fuente.cargar')->group(function () {
+        Route::post('{datoFuenteId}/valores', [DatoFuenteValorController::class, 'store']);
+        Route::put('{datoFuenteId}/valores/{id}', [DatoFuenteValorController::class, 'update']);
+        Route::delete('{datoFuenteId}/valores/{id}', [DatoFuenteValorController::class, 'destroy']);
+        Route::post('{datoFuenteId}/valores/{valorId}/evidencias', [EvidenciaDatoController::class, 'store']);
+        Route::put('{datoFuenteId}/valores/{valorId}/evidencias/{id}', [EvidenciaDatoController::class, 'update']);
+        Route::delete('{datoFuenteId}/valores/{valorId}/evidencias/{id}', [EvidenciaDatoController::class, 'destroy']);
+        Route::post('{datoFuenteId}/api-configs/{id}/importar', [DatoFuenteApiConfigController::class, 'importar']);
+    });
+
+    Route::prefix('datos-fuente')->middleware('permission:datos_fuente.validar')->group(function () {
+        Route::post('{datoFuenteId}/valores/{id}/validar', [DatoFuenteValorController::class, 'validar']);
+    });
+
+    Route::prefix('seguridad')->middleware('permission:usuarios.gestionar')->group(function () {
+        Route::get('usuarios', [UsuarioController::class, 'index']);
+        Route::post('usuarios', [UsuarioController::class, 'store']);
+        Route::get('usuarios/{id}', [UsuarioController::class, 'show']);
+        Route::put('usuarios/{id}', [UsuarioController::class, 'update']);
+        Route::delete('usuarios/{id}', [UsuarioController::class, 'destroy']);
+        Route::get('usuarios/{usuarioId}/roles', [UsuarioRolController::class, 'index']);
+        Route::post('usuarios/{usuarioId}/roles', [UsuarioRolController::class, 'store']);
+        Route::delete('usuarios/{usuarioId}/roles/{rolId}', [UsuarioRolController::class, 'destroy']);
+        Route::get('usuarios/{usuarioId}/permisos-efectivos', [UsuarioPermisoController::class, 'efectivos']);
+    });
+
+    Route::prefix('seguridad')->middleware('permission:roles.gestionar')->group(function () {
+        Route::get('roles', [RolController::class, 'index']);
+        Route::post('roles', [RolController::class, 'store']);
+        Route::get('roles/{id}', [RolController::class, 'show']);
+        Route::put('roles/{id}', [RolController::class, 'update']);
+        Route::delete('roles/{id}', [RolController::class, 'destroy']);
+        Route::get('roles/{rolId}/permisos', [RolPermisoController::class, 'index']);
+        Route::post('roles/{rolId}/permisos', [RolPermisoController::class, 'store']);
+        Route::delete('roles/{rolId}/permisos/{permisoId}', [RolPermisoController::class, 'destroy']);
     });
 });

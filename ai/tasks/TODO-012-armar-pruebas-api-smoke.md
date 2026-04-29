@@ -15,6 +15,7 @@ Construir una base minima de pruebas automatizadas para auth y catalogos, y deja
 - [ ] Test de permiso insuficiente con 403.
 - [ ] Test de listado de categorias.
 - [ ] Test de alta de categoria con usuario autorizado.
+- [ ] Dejar factory o helpers de autenticacion reutilizables para las siguientes pruebas.
 
 ## Archivos Involucrados
 
@@ -27,3 +28,4 @@ Construir una base minima de pruebas automatizadas para auth y catalogos, y deja
 
 - Mantener alcance chico al principio.
 - No intentar cubrir todo el dominio en una sola tarea.
+- Esta tarea es el piso minimo antes de ampliar cobertura por modulo.

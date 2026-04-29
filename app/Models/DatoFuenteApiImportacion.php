@@ -18,4 +18,9 @@ class DatoFuenteApiImportacion extends Model
             'muestra_respuesta' => 'array',
         ];
     }
+
+    public function apiConfig()
+    {
+        return $this->belongsTo(DatoFuenteApiConfig::class, 'dato_fuente_api_config_id');
+    }
 }

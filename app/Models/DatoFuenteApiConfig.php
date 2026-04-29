@@ -21,4 +21,19 @@ class DatoFuenteApiConfig extends Model
             'activo' => 'boolean',
         ];
     }
+
+    public function datoFuente()
+    {
+        return $this->belongsTo(DatoFuente::class);
+    }
+
+    public function paths()
+    {
+        return $this->hasMany(DatoFuenteApiPath::class)->orderBy('prioridad');
+    }
+
+    public function importaciones()
+    {
+        return $this->hasMany(DatoFuenteApiImportacion::class)->latest('fecha_importacion');
+    }
 }

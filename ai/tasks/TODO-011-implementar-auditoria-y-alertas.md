@@ -6,7 +6,7 @@ TODO
 
 ## Objetivo
 
-Habilitar trazabilidad tecnica y funcional minima a traves de auditoria y alertas del sistema.
+Habilitar trazabilidad tecnica y funcional minima a traves de auditoria, alertas y notificaciones internas del sistema.
 
 ## Criterios De Aceptacion
 
@@ -15,6 +15,7 @@ Habilitar trazabilidad tecnica y funcional minima a traves de auditoria y alerta
 - [ ] Crear endpoints de consulta de alertas.
 - [ ] Definir reglas minimas de generacion de alertas.
 - [ ] Aplicar permisos de consulta.
+- [ ] Incluir notificaciones internas basicas asociadas a alertas cuando corresponda.
 
 ## Archivos Involucrados
 
@@ -27,3 +28,5 @@ Habilitar trazabilidad tecnica y funcional minima a traves de auditoria y alerta
 ## Notas
 
 - Priorizar observabilidad interna antes que notificaciones complejas.
+- No implementar canales externos complejos si no son necesarios para el MVP.
+- Pensar este modulo como soporte transversal a corridas, validaciones y administracion.

@@ -32,7 +32,12 @@ El sistema administra el nucleo de indicadores, datos fuente, validaciones, corr
 - Catalogos secundarios implementados bajo `/api/catalogos`, incluyendo areas, fuentes, normas, tipos y jurisdicciones.
 - Contrato inicial del modulo indicadores documentado.
 - ABM de indicadores implementado bajo `/api/indicadores`, incluyendo indicadores, versiones metodologicas y variables.
-- Backlog inicial extendido para catalogos secundarios, indicadores, datos fuente, corridas, auditoria, pruebas y documentacion.
+- Contrato inicial del modulo datos fuente documentado, cubriendo catalogo, valores, evidencias y conectores API.
+- Flujo manual de datos fuente implementado bajo `/api/datos-fuente`, incluyendo catalogo, valores, validacion y evidencias.
+- Conectores API de datos fuente implementados con CRUD de configuraciones y paths, prueba tecnica, importacion y trazabilidad de intentos.
+- Contrato inicial del modulo de seguridad interna documentado, cubriendo usuarios, roles, asignaciones y permisos efectivos.
+- Modulo de seguridad interna implementado bajo `/api/seguridad`, con CRUD de usuarios y roles, asignaciones y permisos efectivos.
+- Backlog ampliado y ordenado en `ai/tasks/ROADMAP.md` para permitir retomar el proyecto sin depender del contexto conversacional previo.
 
 ## Objetivo MVP Backend
 

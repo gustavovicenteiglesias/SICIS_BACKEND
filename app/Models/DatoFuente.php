@@ -26,4 +26,39 @@ class DatoFuente extends Model
     {
         return $this->hasMany(DatoFuenteValor::class);
     }
+
+    public function areaMunicipal()
+    {
+        return $this->belongsTo(AreaMunicipal::class);
+    }
+
+    public function unidadMedida()
+    {
+        return $this->belongsTo(UnidadMedida::class);
+    }
+
+    public function periodicidad()
+    {
+        return $this->belongsTo(Periodicidad::class);
+    }
+
+    public function modalidadCarga()
+    {
+        return $this->belongsTo(ModalidadCarga::class);
+    }
+
+    public function fuenteInstitucional()
+    {
+        return $this->belongsTo(FuenteInstitucional::class);
+    }
+
+    public function responsableUsuario()
+    {
+        return $this->belongsTo(Usuario::class, 'responsable_usuario_id');
+    }
+
+    public function apiConfigs()
+    {
+        return $this->hasMany(DatoFuenteApiConfig::class);
+    }
 }

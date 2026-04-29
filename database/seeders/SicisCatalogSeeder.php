@@ -12,16 +12,20 @@ class SicisCatalogSeeder extends Seeder
         $now = now();
 
         DB::table('permisos')->upsert([
-            ['codigo' => 'usuarios.gestionar', 'nombre' => 'Gestionar usuarios', 'descripcion' => 'Alta, baja y modificacion de usuarios', 'created_at' => $now, 'updated_at' => $now],
-            ['codigo' => 'roles.gestionar', 'nombre' => 'Gestionar roles', 'descripcion' => 'Administrar roles y permisos', 'created_at' => $now, 'updated_at' => $now],
-            ['codigo' => 'indicadores.ver', 'nombre' => 'Ver indicadores', 'descripcion' => 'Consultar indicadores', 'created_at' => $now, 'updated_at' => $now],
-            ['codigo' => 'indicadores.configurar', 'nombre' => 'Configurar indicadores', 'descripcion' => 'Configurar visualizacion, version y metodologia', 'created_at' => $now, 'updated_at' => $now],
-            ['codigo' => 'datos.cargar', 'nombre' => 'Cargar datos', 'descripcion' => 'Cargar datos fuente', 'created_at' => $now, 'updated_at' => $now],
-            ['codigo' => 'datos.validar', 'nombre' => 'Validar datos', 'descripcion' => 'Validar u observar datos fuente', 'created_at' => $now, 'updated_at' => $now],
-            ['codigo' => 'corridas.ejecutar', 'nombre' => 'Ejecutar corridas', 'descripcion' => 'Ejecutar corridas de calculo', 'created_at' => $now, 'updated_at' => $now],
-            ['codigo' => 'corridas.aprobar', 'nombre' => 'Aprobar corridas', 'descripcion' => 'Aprobar u observar corridas', 'created_at' => $now, 'updated_at' => $now],
-            ['codigo' => 'resultados.publicar', 'nombre' => 'Publicar resultados', 'descripcion' => 'Publicar resultados validados', 'created_at' => $now, 'updated_at' => $now],
-            ['codigo' => 'auditoria.ver', 'nombre' => 'Ver auditoria', 'descripcion' => 'Consultar auditoria del sistema', 'created_at' => $now, 'updated_at' => $now],
+            ['id' => 1, 'codigo' => 'usuarios.gestionar', 'nombre' => 'Gestionar usuarios', 'descripcion' => 'Alta, baja y modificacion de usuarios', 'created_at' => $now, 'updated_at' => $now],
+            ['id' => 2, 'codigo' => 'roles.gestionar', 'nombre' => 'Gestionar roles', 'descripcion' => 'Administrar roles y permisos', 'created_at' => $now, 'updated_at' => $now],
+            ['id' => 3, 'codigo' => 'indicadores.ver', 'nombre' => 'Ver indicadores', 'descripcion' => 'Consultar indicadores', 'created_at' => $now, 'updated_at' => $now],
+            ['id' => 4, 'codigo' => 'indicadores.configurar', 'nombre' => 'Configurar indicadores', 'descripcion' => 'Configurar visualizacion, version y metodologia', 'created_at' => $now, 'updated_at' => $now],
+            ['id' => 5, 'codigo' => 'datos.cargar', 'nombre' => 'Cargar datos', 'descripcion' => 'Permiso legado de carga de datos fuente', 'created_at' => $now, 'updated_at' => $now],
+            ['id' => 6, 'codigo' => 'datos.validar', 'nombre' => 'Validar datos', 'descripcion' => 'Permiso legado de validacion de datos fuente', 'created_at' => $now, 'updated_at' => $now],
+            ['id' => 7, 'codigo' => 'corridas.ejecutar', 'nombre' => 'Ejecutar corridas', 'descripcion' => 'Ejecutar corridas de calculo', 'created_at' => $now, 'updated_at' => $now],
+            ['id' => 8, 'codigo' => 'corridas.aprobar', 'nombre' => 'Aprobar corridas', 'descripcion' => 'Aprobar u observar corridas', 'created_at' => $now, 'updated_at' => $now],
+            ['id' => 9, 'codigo' => 'resultados.publicar', 'nombre' => 'Publicar resultados', 'descripcion' => 'Publicar resultados validados', 'created_at' => $now, 'updated_at' => $now],
+            ['id' => 10, 'codigo' => 'auditoria.ver', 'nombre' => 'Ver auditoria', 'descripcion' => 'Consultar auditoria del sistema', 'created_at' => $now, 'updated_at' => $now],
+            ['id' => 11, 'codigo' => 'datos_fuente.ver', 'nombre' => 'Ver datos fuente', 'descripcion' => 'Consultar catalogo y valores de datos fuente', 'created_at' => $now, 'updated_at' => $now],
+            ['id' => 12, 'codigo' => 'datos_fuente.configurar', 'nombre' => 'Configurar datos fuente', 'descripcion' => 'Administrar catalogo de datos fuente', 'created_at' => $now, 'updated_at' => $now],
+            ['id' => 13, 'codigo' => 'datos_fuente.cargar', 'nombre' => 'Cargar datos fuente', 'descripcion' => 'Cargar valores y evidencias de datos fuente', 'created_at' => $now, 'updated_at' => $now],
+            ['id' => 14, 'codigo' => 'datos_fuente.validar', 'nombre' => 'Validar datos fuente', 'descripcion' => 'Validar, observar o cerrar valores de datos fuente', 'created_at' => $now, 'updated_at' => $now],
         ], ['codigo'], ['nombre', 'descripcion', 'updated_at']);
 
         DB::table('areas_municipales')->upsert([
@@ -129,6 +133,10 @@ class SicisCatalogSeeder extends Seeder
             ['rol_id' => 1, 'permiso_id' => 8, 'created_at' => $now, 'updated_at' => $now],
             ['rol_id' => 1, 'permiso_id' => 9, 'created_at' => $now, 'updated_at' => $now],
             ['rol_id' => 1, 'permiso_id' => 10, 'created_at' => $now, 'updated_at' => $now],
+            ['rol_id' => 1, 'permiso_id' => 11, 'created_at' => $now, 'updated_at' => $now],
+            ['rol_id' => 1, 'permiso_id' => 12, 'created_at' => $now, 'updated_at' => $now],
+            ['rol_id' => 1, 'permiso_id' => 13, 'created_at' => $now, 'updated_at' => $now],
+            ['rol_id' => 1, 'permiso_id' => 14, 'created_at' => $now, 'updated_at' => $now],
             ['rol_id' => 2, 'permiso_id' => 3, 'created_at' => $now, 'updated_at' => $now],
             ['rol_id' => 2, 'permiso_id' => 4, 'created_at' => $now, 'updated_at' => $now],
             ['rol_id' => 3, 'permiso_id' => 3, 'created_at' => $now, 'updated_at' => $now],
