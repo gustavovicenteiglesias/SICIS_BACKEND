@@ -1,6 +1,6 @@
 # SICIS Backend
 
-Backend Laravel para SICIS Lujan. El proyecto expone una API y administra el nucleo de usuarios, roles, catalogos, indicadores, datos fuente, corridas, snapshots, alertas y auditoria.
+Backend Laravel para SICIS Luján. El proyecto expone una API y administra el núcleo de usuarios, roles, catálogos, indicadores, datos fuente, corridas, snapshots, alertas y auditorías.
 
 ## Requisitos
 
@@ -32,7 +32,7 @@ Crear el archivo de entorno:
 cp .env.example .env
 ```
 
-En PowerShell, si `cp` no esta disponible:
+En PowerShell, si `cp` no está disponible:
 
 ```powershell
 Copy-Item .env.example .env
@@ -55,7 +55,7 @@ DB_USERNAME=root
 DB_PASSWORD=
 ```
 
-Crear la base de datos vacia en MySQL antes de migrar:
+Crear la base de datos vacía en MySQL antes de migrar:
 
 ```sql
 CREATE DATABASE sicis_lujan CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -80,9 +80,9 @@ usuario: admin
 password: 12345678
 ```
 
-El login usa el campo `nombre_usuario`, aunque en la API se envia como `usuario` para mantener simple el contrato del frontend.
+El login usa el campo `nombre_usuario`, aunque en la API se envía como `usuario` para mantener simple el contrato del frontend.
 
-Los seeders tambien cargan roles, permisos, areas municipales, normas, unidades, periodicidades, estados, modalidades, tipos de jurisdiccion, jurisdicciones y categorias base.
+Los seeders también cargan roles, permisos, áreas municipales, normas, unidades, periodicidades, estados, modalidades, tipos de jurisdicción, jurisdicciones y categorías base.
 
 ## Levantar El Proyecto
 
@@ -98,7 +98,7 @@ Por defecto queda en:
 http://127.0.0.1:8000
 ```
 
-Tambien se puede usar el script de Composer:
+También se puede usar el script de Composer:
 
 ```bash
 composer run dev
@@ -180,7 +180,7 @@ Respuesta:
 Errores esperados:
 
 - `422`: faltan campos, credenciales incorrectas o usuario inactivo.
-- `401`: token ausente, invalido o expirado en rutas protegidas.
+- `401`: token ausente, inválido o expirado en rutas protegidas.
 
 Healthcheck simple:
 
@@ -188,15 +188,15 @@ Healthcheck simple:
 GET /
 ```
 
-## Documentacion API
+## Documentación API
 
 - [Indice de contratos](docs/indice-contratos-api.md)
-- [Explicacion del backend para el equipo](docs/explicacion-backend-para-equipo.md)
-- [Guia corta de Postman](docs/guia-postman.md)
-- [Coleccion Postman](docs/SICIS-Backend.postman_collection.json)
+- [Explicación del backend para el equipo](docs/explicacion-backend-para-equipo.md)
+- [Guía corta de Postman](docs/guia-postman.md)
+- [Colección Postman](docs/SICIS-Backend.postman_collection.json)
 - [Convenciones de errores y observabilidad](docs/convenciones-api-errores.md)
 - [Checklist de release MVP](docs/checklist-release-mvp.md)
-- [Contratos de catalogos](docs/contratos-api-catalogos.md)
+- [Contratos de catálogos](docs/contratos-api-catalogos.md)
 - [Contratos de indicadores](docs/contratos-api-indicadores.md)
 - [Contratos de datos fuente](docs/contratos-api-datos-fuente.md)
 - [Contratos de corridas](docs/contratos-api-corridas.md)
@@ -204,7 +204,7 @@ GET /
 - [Contratos de seguridad interna](docs/contratos-api-usuarios-roles.md)
 - [Contratos de exportaciones y consultas externas](docs/contratos-api-exportaciones.md)
 
-## Comandos Utiles
+## Comandos Útiles
 
 Ver rutas:
 
@@ -212,7 +212,7 @@ Ver rutas:
 php artisan route:list
 ```
 
-Limpiar caches de configuracion:
+Limpiar caches de configuración:
 
 ```bash
 php artisan optimize:clear
@@ -224,7 +224,7 @@ Ejecutar tests:
 php artisan test
 ```
 
-Formatear codigo con Pint:
+Formatear código con Pint:
 
 ```bash
 ./vendor/bin/pint
@@ -240,9 +240,9 @@ vendor\bin\pint
 
 - Las tablas se definen en `database/migrations`.
 - Los datos iniciales se cargan desde `database/seeders`.
-- Los modelos Eloquent estan en `app/Models`.
-- Las rutas de API estan en `routes/api.php`.
-- Los controllers estan en `app/Http/Controllers`.
+- Los modelos Eloquent están en `app/Models`.
+- Las rutas de API están en `routes/api.php`.
+- Los controllers están en `app/Http/Controllers`.
 - Sanctum maneja los tokens de API.
 - El frontend vive fuera de este repositorio.
 
@@ -250,7 +250,7 @@ vendor\bin\pint
 
 Antes de usar un agente de IA sobre este repo, leer [docs/guia-trabajo-con-ia.md](docs/guia-trabajo-con-ia.md).
 
-Regla corta: pedirle siempre al agente que lea `AGENTS.md` antes de diagnosticar o tocar codigo.
+Regla corta: pedirle siempre al agente que lea `AGENTS.md` antes de diagnosticar o tocar código.
 
 ## Estado MVP
 
@@ -258,17 +258,17 @@ El backend MVP queda cerrado con:
 
 - auth interna
 - seguridad por roles y permisos
-- catalogos
+- catálogos
 - indicadores
 - datos fuente
 - corridas y snapshots
-- observabilidad minima
+- observabilidad mínima
 - exportaciones y consultas externas
-- documentacion de contratos
-- coleccion Postman
+- documentación de contratos
+- colección Postman
 - base de pruebas automatizadas
 
-Para revisar el cierre tecnico y los pendientes conocidos, ver [docs/checklist-release-mvp.md](docs/checklist-release-mvp.md).
+Para revisar el cierre técnico y los pendientes conocidos, ver [docs/checklist-release-mvp.md](docs/checklist-release-mvp.md).
 
 ## Problemas Frecuentes
 
@@ -296,4 +296,4 @@ Ejemplo:
 git config --global --add safe.directory C:/Users/Gustavo/OneDrive/Documentos/Laravel/sicis-backend
 ```
 
-Si MySQL rechaza una tabla ya existente, revisar que se este usando la base correcta en `.env` y volver a correr `migrate:fresh --seed` solo si se puede borrar la base.
+Si MySQL rechaza una tabla ya existente, revisar que se esté usando la base correcta en `.env` y volver a correr `migrate:fresh --seed` solo si se puede borrar la base.

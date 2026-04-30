@@ -1,19 +1,19 @@
-# Indice De Contratos API
+# Índice De Contratos API
 
-Este documento resume los modulos disponibles del backend SICIS y apunta al contrato detallado de cada bloque. Sirve como mapa rapido para frontend, QA o integraciones.
+Este documento resume los módulos disponibles del backend SICIS y apunta al contrato detallado de cada bloque. Sirve como mapa rápido para frontend, QA o integraciones.
 
-## Modulos Disponibles
+## Módulos Disponibles
 
-| Modulo | Prefijo | Documento |
-|---|---|---|
+| Módulo | Prefijo | Documento |
+| --- | --- | --- |
 | Auth | `/api` | `README.md` |
-| Catalogos | `/api/catalogos` | [contratos-api-catalogos.md](./contratos-api-catalogos.md) |
-| Indicadores | `/api/indicadores` | [contratos-api-indicadores.md](./contratos-api-indicadores.md) |
-| Datos fuente | `/api/datos-fuente` | [contratos-api-datos-fuente.md](./contratos-api-datos-fuente.md) |
-| Corridas | `/api/corridas` | [contratos-api-corridas.md](./contratos-api-corridas.md) |
-| Observabilidad | `/api/observabilidad` | [contratos-api-observabilidad.md](./contratos-api-observabilidad.md) |
-| Seguridad interna | `/api/seguridad` | [contratos-api-usuarios-roles.md](./contratos-api-usuarios-roles.md) |
-| Consultas externas | `/api/externo` | [contratos-api-exportaciones.md](./contratos-api-exportaciones.md) |
+| Catálogos | `/api/catalogos` | [Contratos de catálogos](./contratos-api-catalogos.md) |
+| Indicadores | `/api/indicadores` | [Contratos de indicadores](./contratos-api-indicadores.md) |
+| Datos fuente | `/api/datos-fuente` | [Contratos de datos fuente](./contratos-api-datos-fuente.md) |
+| Corridas | `/api/corridas` | [Contratos de corridas](./contratos-api-corridas.md) |
+| Observabilidad | `/api/observabilidad` | [Contratos de observabilidad](./contratos-api-observabilidad.md) |
+| Seguridad interna | `/api/seguridad` | [Contratos de seguridad interna](./contratos-api-usuarios-roles.md) |
+| Consultas externas | `/api/externo` | [Contratos de exportaciones](./contratos-api-exportaciones.md) |
 
 ## Endpoints Clave
 
@@ -49,7 +49,7 @@ Respuesta esperada:
 }
 ```
 
-### 2. Alta De Categoria
+### 2. Alta De Categoría
 
 ```http
 POST /api/catalogos/categorias
@@ -87,7 +87,7 @@ Content-Type: application/json
 }
 ```
 
-### 4. Validacion De Dato Fuente
+### 4. Validación De Dato Fuente
 
 ```http
 POST /api/datos-fuente/{datoFuente}/valores/{valor}/validar
@@ -103,7 +103,7 @@ Content-Type: application/json
 }
 ```
 
-### 5. Ejecucion De Corrida
+### 5. Ejecución De Corrida
 
 ```http
 POST /api/corridas/{corrida}/ejecutar
@@ -113,24 +113,24 @@ Content-Type: application/json
 
 ```json
 {
-  "observaciones": "Ejecucion inicial"
+  "observaciones": "Ejecución inicial"
 }
 ```
 
-### 6. Resultados Publicos
+### 6. Resultados Públicos
 
 ```http
 GET /api/externo/resultados-publicos?periodo_desde=2026-01-01&periodo_hasta=2026-12-31
 Authorization: Bearer <token>
 ```
 
-Si se necesita exportacion:
+Si se necesita exportación:
 
 ```http
 GET /api/externo/resultados-publicos?format=csv
 Authorization: Bearer <token>
 ```
 
-## Regla Practica
+## Regla Práctica
 
-Para detalle de payloads, validaciones, filtros y reglas de negocio, usar siempre el contrato del modulo correspondiente. Este indice es una puerta de entrada, no reemplaza esos documentos.
+Para detalle de payloads, validaciones, filtros y reglas de negocio, usar siempre el contrato del módulo correspondiente. Este índice es una puerta de entrada, no reemplaza esos documentos.

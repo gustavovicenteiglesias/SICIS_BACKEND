@@ -1,6 +1,6 @@
 # Convenciones API - Errores Y Observabilidad
 
-Este documento resume las convenciones tecnicas de errores y trazabilidad adoptadas en el backend SICIS para mejorar operacion, diagnostico y consistencia entre modulos.
+Este documento resume las convenciones técnicas de errores y trazabilidad adoptadas en el backend SICIS para mejorar operación, diagnóstico y consistencia entre módulos.
 
 ## Objetivo
 
@@ -25,7 +25,7 @@ Las respuestas de error siguen esta estructura:
   "code": "CODIGO_ESTABLE",
   "errors": {
     "campo": [
-      "Detalle de validacion"
+      "Detalle de validación"
     ]
   },
   "request_id": "uuid",
@@ -36,15 +36,15 @@ Las respuestas de error siguen esta estructura:
 Notas:
 
 1. `errors` solo aparece cuando aplica, principalmente en `422`.
-2. `request_id` siempre debe preservarse para soporte tecnico.
-3. `path` ayuda a diagnostico rapido en logs y QA.
+2. `request_id` siempre debe preservarse para soporte técnico.
+3. `path` ayuda a diagnóstico rápido en logs y QA.
 
-## Codigos Y Estados
+## Códigos Y Estados
 
 ### 401
 
 - `code`: `AUTH_REQUIRED`
-- mensaje: autenticacion faltante o invalida
+- mensaje: autenticación faltante o inválida
 
 ### 403
 
@@ -59,19 +59,19 @@ Notas:
 ### 422
 
 - `code`: `VALIDATION_ERROR`
-- mensaje: validacion fallida o restriccion de negocio expuesta como validacion
+- mensaje: validación fallida o restricción de negocio expuesta como validación
 
 ### 500
 
 - `code`: `INTERNAL_ERROR`
-- mensaje: error interno no esperado
+- mensaje: error interno inesperado
 
-## Criterios Practicos
+## Criterios Prácticos
 
 1. Las validaciones de negocio recuperables deben priorizar `422`.
 2. Los problemas de permiso deben priorizar `403`.
 3. Los errores no esperados no deben devolver trazas ni detalles sensibles al cliente.
-4. Los detalles tecnicos completos deben quedar en logs y asociarse por `request_id`.
+4. Los detalles técnicos completos deben quedar en logs y asociarse por `request_id`.
 
 ## Logging Transversal
 
@@ -81,11 +81,11 @@ Se registra log estructurado para excepciones no esperadas con:
 - `method`
 - `path`
 - `usuario_id`
-- clase de excepcion
+- clase de excepción
 - mensaje
 
-## Observaciones Por Modulo
+## Observaciones Por Módulo
 
-1. Corridas mantiene auditoria y alertas de negocio propias.
-2. Datos fuente mantiene trazabilidad especifica de importaciones API.
-3. La capa global de errores no reemplaza la auditoria funcional; la complementa.
+1. Corridas mantiene auditoría y alertas de negocio propias.
+2. Datos fuente mantiene trazabilidad específica de importaciones API.
+3. La capa global de errores no reemplaza la auditoría funcional; la complementa.

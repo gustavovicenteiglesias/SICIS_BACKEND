@@ -1,8 +1,8 @@
-# Guia Corta De Postman
+# Guía Corta De Postman
 
-Esta guia propone un orden practico para probar el backend SICIS sin perderse entre modulos.
+Esta guía propone un orden práctico para probar el backend SICIS sin perderse entre módulos.
 
-## Variables De Coleccion Recomendadas
+## Variables De Colección Recomendadas
 
 - `base_url`
 - `token`
@@ -21,13 +21,13 @@ Esta guia propone un orden practico para probar el backend SICIS sin perderse en
    - `Login`
    - `Perfil`
 
-2. `Catalogos`
-   - `Categorias / Listar`
-   - `Categorias / Crear`
+2. `Catálogos`
+   - `Categorías / Listar`
+   - `Categorías / Crear`
 
 3. `Indicadores`
    - `Crear indicador`
-   - `Crear version`
+   - `Crear versión`
    - `Crear variable`
 
 4. `Datos Fuente`
@@ -42,28 +42,31 @@ Esta guia propone un orden practico para probar el backend SICIS sin perderse en
    - `Publicar corrida`
 
 6. `Observabilidad`
-   - `Auditoria`
+   - `Auditoría`
    - `Alertas`
    - `Notificaciones`
 
 7. `Externo`
    - `Indicadores vigentes`
-   - `Resultados publicos`
+   - `Resultados públicos`
    - `Corridas publicadas`
 
 ## Sugerencia Operativa
 
 - Ejecutar siempre `Login` primero para refrescar `token`.
 - Guardar IDs importantes desde la pestaña `Tests` de Postman.
-- Si una request devuelve `403`, revisar el permiso asociado al modulo antes de asumir un error de codigo.
-- Si una request devuelve `422`, revisar el contrato del modulo y los IDs referenciados.
+- Si una request devuelve `403`, revisar el permiso asociado al módulo antes de asumir un error de código.
+- Si una request devuelve `422`, revisar el contrato del módulo y los IDs referenciados.
 
 ## Documentos Para Tener Abiertos
 
 - [Indice de contratos](./indice-contratos-api.md)
-- [Contratos de catalogos](./contratos-api-catalogos.md)
+- [Contratos de catálogos](./contratos-api-catalogos.md)
 - [Contratos de indicadores](./contratos-api-indicadores.md)
 - [Contratos de datos fuente](./contratos-api-datos-fuente.md)
 - [Contratos de corridas](./contratos-api-corridas.md)
 - [Contratos de observabilidad](./contratos-api-observabilidad.md)
 - [Contratos de exportaciones](./contratos-api-exportaciones.md)
+
+
+

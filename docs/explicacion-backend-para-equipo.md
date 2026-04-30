@@ -1,90 +1,101 @@
-# Explicacion Del Backend SICIS Para El Equipo
+# Explicación Del Backend SICIS Para El Equipo
 
-Este documento explica como pensar y recorrer el backend SICIS si ya trabajas en sistemas o desarrollo, pero no tenes mucha experiencia con PHP o Laravel.
+Este documento explica cómo pensar y recorrer el backend SICIS si ya trabajás en sistemas o desarrollo, pero no tenés mucha experiencia con PHP o Laravel.
 
-La idea no es enseñar Laravel completo. La idea es que puedas entender este proyecto, ubicarte en el codigo y seguir el flujo funcional del sistema sin perderte.
+La idea no es enseñar Laravel completo. La idea es que puedas entender este proyecto, ubicarte en el código y seguir el flujo funcional del sistema sin perderte.
 
-## 1. Que Resuelve Este Proyecto
+## 1. Qué Resuelve Este Proyecto
 
 SICIS es un sistema para administrar indicadores de ciudad.
 
 Este backend se encarga de:
 
-- autenticar usuarios
-- aplicar permisos
-- administrar catalogos del sistema
-- definir indicadores y sus versiones metodologicas
-- registrar datos fuente
-- validar datos
-- ejecutar corridas de calculo
-- guardar snapshots historicos
-- aprobar y publicar resultados
-- dejar auditoria y alertas
+- autenticar usuarios  
+- aplicar permisos  
+- administrar catálogos del sistema  
+- definir indicadores y sus versiones metodológicas  
+- registrar datos fuente  
+- validar datos  
+- ejecutar corridas de cálculo  
+- guardar snapshots históricos  
+- aprobar y publicar resultados  
+- dejar auditoría y alertas  
 - exponer datos para consumo externo o BI
 
 Este repo no hace frontend.
 
-No tiene pantallas ni portal visual. Todo lo que vive aca son reglas, datos, endpoints API y trazabilidad.
+No tiene pantallas ni portal visual. Todo lo que vive acá son reglas, datos, endpoints API y trazabilidad.
 
-## 2. Como Pensar El Proyecto Sin Saber Laravel
+## 2. Cómo Pensar El Proyecto Sin Saber Laravel
 
-Si venis de otros stacks, una forma simple de traducir Laravel es esta:
+Si venís de otros stacks, una forma simple de traducir Laravel es esta:
 
-- `routes/api.php`
-  - define las rutas HTTP disponibles
+- `routes/api.php`  
+    
+  - define las rutas HTTP disponibles  
   - es la puerta de entrada de la API
 
-- `app/Http/Controllers`
-  - contiene los controllers
+
+- `app/Http/Controllers`  
+    
+  - contiene los controladores  
   - un controller recibe la request, valida, coordina reglas y devuelve JSON
 
-- `app/Models`
-  - contiene los modelos Eloquent
-  - un modelo representa una tabla o una vista de base
-  - tambien define relaciones entre entidades
 
-- `database/migrations`
-  - define el esquema de base de datos en codigo
+- `app/Models`  
+    
+  - contiene los modelos Eloquent  
+  - un modelo representa una tabla o una vista de base  
+  - también define relaciones entre entidades
+
+
+- `database/migrations`  
+    
+  - define el esquema de base de datos en código  
   - en este proyecto, las migrations son la fuente de verdad
 
-- `database/seeders`
-  - cargan datos iniciales
-  - por ejemplo roles, permisos, estados, categorias base y usuario admin
 
-- `tests`
-  - contiene pruebas automatizadas
-  - hoy hay smoke tests y algunos tests de integracion/permisos
+- `database/seeders`  
+    
+  - cargan datos iniciales  
+  - por ejemplo roles, permisos, estados, categorías base y usuario admin
+
+
+- `tests`  
+    
+  - contiene pruebas automatizadas  
+  - hoy hay smoke tests y algunos tests de integración/permisos
 
 ## 3. Estructura Mental Del Negocio
 
-Una forma util de entender SICIS es pensar el dominio en capas.
+Una forma útil de entender SICIS es pensar el dominio en capas.
 
 ### Capa 1. Seguridad
 
 Primero existe la seguridad interna:
 
-- usuarios
-- roles
+- usuarios  
+- roles  
 - permisos
 
-Sin eso no hay operacion del backoffice.
+Sin eso no hay operación del backoffice.
 
-### Capa 2. Catalogos
+### Capa 2. Catálogos
 
-Despues vienen los catalogos que ordenan el sistema:
+Después vienen los catálogos que ordenan el sistema:
 
-- categorias
-- categorias tematicas
-- unidades de medida
-- periodicidades
-- estados
-- modalidades
-- areas municipales
-- normas
-- tipos
+- categorías  
+- categorías temáticas  
+- unidades de medida  
+- periodicidades  
+- estados  
+- modalidades  
+- áreas municipales  
+- normas  
+- tipos  
 - jurisdicciones
 
-Estos catalogos son la base para cargar indicadores y datos.
+Estos catálogos son la base para cargar indicadores y datos.
 
 ### Capa 3. Indicadores
 
@@ -92,11 +103,11 @@ Un indicador no es solo un nombre.
 
 En este backend un indicador tiene:
 
-- una definicion general
-- una o varias versiones metodologicas
-- variables asociadas a cada version
+- una definición general  
+- una o varias versiones metodológicas  
+- variables asociadas a cada versión
 
-Eso permite que el metodo de calculo cambie en el tiempo sin perder historia.
+Eso permite que el método de cálculo cambie en el tiempo sin perder la historia.
 
 ### Capa 4. Datos Fuente
 
@@ -104,11 +115,11 @@ Los indicadores se alimentan con datos fuente.
 
 Cada dato fuente tiene:
 
-- una definicion base
-- valores cargados
-- estado de validacion
-- evidencias
-- eventualmente una configuracion para importar desde una API externa
+- una definición base  
+- valores cargados  
+- estado de validación  
+- evidencias  
+- eventualmente una configuración para importar desde una API externa
 
 ### Capa 5. Corridas
 
@@ -116,19 +127,19 @@ La corrida es el momento donde el sistema toma datos validados y calcula resulta
 
 Una corrida:
 
-- se hace para una jurisdiccion y un periodo
-- usa versiones activas de indicadores
-- toma datos fuente validados
-- guarda snapshots de los datos usados
-- guarda snapshots de resultados
+- se hace para una jurisdicción y un periodo  
+- usa versiones activas de indicadores  
+- toma datos fuente validados  
+- guarda snapshots de los datos usados  
+- guarda snapshots de resultados  
 - puede aprobarse y publicarse
 
 ### Capa 6. Observabilidad
 
-Ademas del negocio, el sistema deja:
+Además del negocio, el sistema deja:
 
-- auditoria
-- alertas
+- auditoría  
+- alertas  
 - notificaciones internas
 
 Eso ayuda a operar y diagnosticar.
@@ -137,11 +148,11 @@ Eso ayuda a operar y diagnosticar.
 
 Finalmente, el backend expone consultas simples para terceros:
 
-- indicadores vigentes
-- resultados publicos
+- indicadores vigentes  
+- resultados públicos  
 - corridas publicadas
 
-## 4. Como Viaja Una Request
+## 4. Cómo Viaja Una Request
 
 Ejemplo:
 
@@ -149,32 +160,32 @@ Ejemplo:
 
 El recorrido mental es:
 
-1. La ruta vive en `routes/api.php`
-2. La ruta pasa por middleware
-3. El middleware chequea autenticacion y permiso
-4. Entra al controller correspondiente
-5. El controller valida el body
-6. El controller busca el modelo y aplica reglas de negocio
-7. El modelo persiste cambios en base
-8. El controller devuelve JSON
-9. Si corresponde, tambien genera auditoria o alertas
+1. La ruta vive en `routes/api.php`  
+2. La ruta pasa por middleware  
+3. El middleware chequea autenticación y permiso  
+4. Entra al controller correspondiente  
+5. El controller valida el body  
+6. El controller busca el modelo y aplica reglas de negocio  
+7. El modelo persiste cambios en base  
+8. El controller devuelve JSON  
+9. Si corresponde, también genera auditoría o alertas
 
 Eso se repite bastante en casi todo el proyecto.
 
-## 5. Donde Esta Cada Modulo
+## 5. Dónde Está Cada Módulo
 
 ### Auth
 
-- `app/Http/Controllers/AuthController.php`
+- `app/Http/Controllers/AuthController.php`  
 - rutas en `routes/api.php`
 
 Hace login por `nombre_usuario`, devuelve token Sanctum y expone perfil.
 
-### Catalogos
+### Catálogos
 
 - `app/Http/Controllers/Catalogos/`
 
-Muchos catalogos reutilizan un controller base:
+Muchos catálogos reutilizan un controller base:
 
 - `BaseCatalogController.php`
 
@@ -184,33 +195,33 @@ Eso evita repetir CRUD simple.
 
 - `app/Http/Controllers/Indicadores/`
 
-Aca se administra:
+Acá se administra:
 
-- indicador
-- version metodologica
+- indicador  
+- versión metodológica  
 - variable
 
 ### Datos Fuente
 
 - `app/Http/Controllers/DatosFuente/`
 
-Aca viven:
+Acá viven:
 
-- catalogo de datos fuente
-- valores
-- validacion
-- evidencias
+- catálogo de datos fuente  
+- valores  
+- validación  
+- evidencias  
 - conectores API
 
 ### Corridas
 
 - `app/Http/Controllers/Corridas/CorridaController.php`
 
-Es uno de los puntos mas importantes del sistema porque une indicadores con datos validados y genera resultados.
+Es uno de los puntos más importantes del sistema porque une indicadores con datos validados y genera resultados.
 
 ### Observabilidad
 
-- `app/Http/Controllers/Observabilidad/`
+- `app/Http/Controllers/Observabilidad/`  
 - `app/Support/Observability/Observability.php`
 
 La parte de soporte transversal vive en `app/Support`.
@@ -227,185 +238,185 @@ Administra usuarios, roles, permisos efectivos y asignaciones.
 
 Expone JSON y CSV para consumo externo.
 
-## 6. Como Se Organiza La Base
+## 6. Cómo Se Organiza La Base
 
 La base no se piensa desde SQL suelto sino desde migrations.
 
 Archivos clave:
 
-- `2026_04_28_215107_create_usuarios_table.php`
-- `2026_04_28_215108_create_sicis_catalog_tables.php`
-- `2026_04_28_215109_create_sicis_core_tables.php`
-- `2026_04_28_215110_create_sicis_operations_tables.php`
+- `2026_04_28_215107_create_usuarios_table.php`  
+- `2026_04_28_215108_create_sicis_catalog_tables.php`  
+- `2026_04_28_215109_create_sicis_core_tables.php`  
+- `2026_04_28_215110_create_sicis_operations_tables.php`  
 - `2026_04_28_215111_create_sicis_views.php`
 
-Una lectura simple seria:
+Una lectura simple sería:
 
-- `catalog tables` = catalogos base
-- `core tables` = indicadores y datos fuente
-- `operations tables` = corridas, alertas, auditoria, integraciones
+- `catalog tables` = catálogos base  
+- `core tables` = indicadores y datos fuente  
+- `operations tables` = corridas, alertas, auditoría, integraciones  
 - `views` = vistas para consulta externa
 
-## 7. Como Funciona La Seguridad
+## 7. Cómo Funciona La Seguridad
 
 Hay dos conceptos separados:
 
-### Autenticacion
+### Autenticación
 
 Responde a:
 
-"quien sos"
+"quién sos"
 
 Se resuelve con login y token Sanctum.
 
-### Autorizacion
+### Autorización
 
 Responde a:
 
-"que podes hacer"
+"qué podés hacer"
 
 Se resuelve con permisos.
 
 Ejemplos:
 
-- `indicadores.ver`
-- `indicadores.configurar`
-- `datos_fuente.cargar`
-- `datos_fuente.validar`
-- `corridas.ejecutar`
-- `corridas.aprobar`
+- `indicadores.ver`  
+- `indicadores.configurar`  
+- `datos_fuente.cargar`  
+- `datos_fuente.validar`  
+- `corridas.ejecutar`  
+- `corridas.aprobar`  
 - `resultados.publicar`
 
 El middleware `CheckPermission` chequea eso antes de entrar al controller.
 
-## 8. Que Es Una Corrida En Terminos Simples
+## 8. Qué Es Una Corrida En Términos Simples
 
-Si alguien del equipo pregunta "que hace una corrida", una forma corta de explicarlo es esta:
+Si alguien del equipo pregunta "qué hace una corrida", una forma corta de explicarlo es esta:
 
 Una corrida toma:
 
-- una jurisdiccion
-- un periodo
-- indicadores activos
-- la version vigente de cada indicador
+- una jurisdicción  
+- un periodo  
+- indicadores activos  
+- la versión vigente de cada indicador  
 - datos fuente validados para ese contexto
 
 Y produce:
 
-- resultados calculados
-- snapshot de datos usados
+- resultados calculados  
+- snapshot de datos usados  
 - snapshot de resultados
 
-Despues esos resultados pueden:
+Después esos resultados pueden:
 
-- quedar ejecutados
-- aprobarse
+- quedar ejecutados  
+- aprobarse  
 - publicarse
 
-## 9. Que Son Los Snapshots
+## 9. Qué Son Los Snapshots
 
-Un snapshot es una foto historica del momento de calculo.
+Un snapshot es una foto histórica del momento del cálculo.
 
-Se guarda para que mas adelante puedas saber:
+Se guarda para que más adelante puedas saber:
 
-- que datos exactos se usaron
-- que formula/version aplicaba
-- que resultado se obtuvo
+- qué datos exactos se usaron  
+- qué fórmula/versión aplicaba  
+- qué resultado se obtuvo
 
-Eso evita que un cambio posterior en los datos o en la metodologia borre la trazabilidad historica.
+Eso evita que un cambio posterior en los datos o en la metodología borre la trazabilidad histórica.
 
-## 10. Como Esta Pensada La Observabilidad
+## 10. Cómo Está Pensada La Observabilidad
 
 El proyecto tiene dos niveles de observabilidad:
 
 ### Nivel funcional
 
-- auditoria
-- alertas
+- auditoría  
+- alertas  
 - notificaciones internas
 
 Sirve para seguir acciones del negocio.
 
-### Nivel tecnico
+### Nivel técnico
 
-- respuestas de error estandarizadas
-- `request_id`
+- respuestas de error estandarizadas  
+- `request_id`  
 - logging estructurado
 
 Sirve para diagnosticar problemas de API y soporte.
 
-## 11. Como Empezar A Leer El Codigo
+## 11. Cómo Empezar A Leer El Código
 
 Si alguien entra nuevo al proyecto, este es un orden razonable:
 
-1. `README.md`
-2. `docs/indice-contratos-api.md`
-3. `routes/api.php`
-4. `app/Http/Controllers/AuthController.php`
-5. `app/Http/Middleware/CheckPermission.php`
-6. `app/Models/Usuario.php`
-7. controllers por modulo:
-   - `Catalogos`
-   - `Indicadores`
-   - `DatosFuente`
-   - `Corridas`
-   - `Observabilidad`
-   - `Seguridad`
-   - `Externo`
-8. migrations principales
+1. `README.md`  
+2. `docs/indice-contratos-api.md`  
+3. `routes/api.php`  
+4. `app/Http/Controllers/AuthController.php`  
+5. `app/Http/Middleware/CheckPermission.php`  
+6. `app/Models/Usuario.php`  
+7. controllers por módulo:  
+   - `Catálogos`  
+   - `Indicadores`  
+   - `DatosFuente`  
+   - `Corridas`  
+   - `Observabilidad`  
+   - `Seguridad`  
+   - `Externo`  
+8. migrations principales  
 9. tests feature
 
 Ese recorrido da una imagen bastante buena sin tener que leer todo el repo de golpe.
 
-## 12. Como Pensar Los Tests
+## 12. Cómo Pensar Los Tests
 
-Hoy los tests sirven mas como validacion de flujos clave que como cobertura total.
+Hoy los tests sirven más como validación de flujos clave que como cobertura total.
 
 Hay tres bloques importantes:
 
-- smoke tests de auth y catalogos
-- integracion de indicadores
-- permisos y validacion de datos fuente
+- smoke tests de auth y catálogos  
+- integración de indicadores  
+- permisos y validación de datos fuente  
 - consistencia de errores
 
-Archivos utiles:
+Archivos útiles:
 
-- `tests/Feature/AuthAndCatalogSmokeTest.php`
-- `tests/Feature/IndicadoresIntegrationTest.php`
-- `tests/Feature/DatosFuentePermissionsTest.php`
+- `tests/Feature/AuthAndCatalogSmokeTest.php`  
+- `tests/Feature/IndicadoresIntegrationTest.php`  
+- `tests/Feature/DatosFuentePermissionsTest.php`  
 - `tests/Feature/ErrorHandlingConsistencyTest.php`
 
-Si queres entender el comportamiento esperado del sistema, leer esos tests ayuda bastante.
+Si querés entender el comportamiento esperado del sistema, leer esos tests ayuda bastante.
 
-## 13. Glosario Rapido
+## 13. Glosario Rápido
 
 ### Indicador
 
-Definicion conceptual de una medicion del sistema.
+Definición conceptual de una medición del sistema.
 
-### Version metodologica
+### Versión metodológica
 
-Version concreta de como se calcula un indicador en cierto periodo.
+Versión concreta de cómo se calcula un indicador en cierto período.
 
 ### Variable
 
-Dato fuente que participa en la formula de una version.
+Dato fuente que participa en la formula de una versión.
 
 ### Dato fuente
 
-Fuente operativa de informacion que alimenta indicadores.
+Fuente operativa de información que alimenta indicadores.
 
 ### Valor de dato fuente
 
-Medicion concreta cargada para una jurisdiccion y un periodo.
+Medición concreta cargada para una jurisdicción y un período.
 
 ### Corrida
 
-Proceso de calculo de resultados para un periodo/jurisdiccion.
+Proceso de cálculo de resultados para un período/jurisdicción.
 
 ### Snapshot
 
-Foto historica de datos o resultados usados en una corrida.
+Foto histórica de datos o resultados usados en una corrida.
 
 ### Publicable
 
@@ -413,24 +424,24 @@ Marca que indica si algo puede exponerse hacia consumos externos.
 
 ### Sensible
 
-Marca que indica que el dato no deberia exponerse publicamente.
+Marca que indica que el dato no debería exponerse públicamente.
 
 ## 14. Idea Final Para El Equipo
 
-La forma mas sana de pensar este proyecto no es "un proyecto PHP", sino:
+La forma más sana de pensar este proyecto no es "un proyecto PHP", sino:
 
 "un backend de dominio bastante ordenado, montado sobre Laravel"
 
-Si ya entendes:
+Si ya entendés:
 
-- API REST
-- autenticacion
-- permisos
-- entidades y relaciones
-- validacion
-- procesos batch o de calculo
+- API REST  
+- autenticación  
+- permisos  
+- entidades y relaciones  
+- validación  
+- procesos batch o de cálculo  
 - trazabilidad
 
-entonces ya entendes gran parte del sistema.
+entonces ya entendés gran parte del sistema.
 
-Laravel en este repo es, sobre todo, la estructura que organiza esas piezas.
+Laravel en este repo es, sobre todo, la estructura que organiza esas piezas.  
