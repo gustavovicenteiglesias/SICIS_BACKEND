@@ -191,6 +191,7 @@ GET /
 ## Documentacion API
 
 - [Indice de contratos](docs/indice-contratos-api.md)
+- [Explicacion del backend para el equipo](docs/explicacion-backend-para-equipo.md)
 - [Guia corta de Postman](docs/guia-postman.md)
 - [Coleccion Postman](docs/SICIS-Backend.postman_collection.json)
 - [Convenciones de errores y observabilidad](docs/convenciones-api-errores.md)
