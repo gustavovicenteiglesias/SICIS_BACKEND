@@ -20,4 +20,24 @@ class CorridaSnapshotDato extends Model
             'created_at' => 'datetime',
         ];
     }
+
+    public function corrida()
+    {
+        return $this->belongsTo(Corrida::class);
+    }
+
+    public function datoFuente()
+    {
+        return $this->belongsTo(DatoFuente::class);
+    }
+
+    public function datoFuenteValor()
+    {
+        return $this->belongsTo(DatoFuenteValor::class);
+    }
+
+    public function unidadMedida()
+    {
+        return $this->belongsTo(UnidadMedida::class);
+    }
 }

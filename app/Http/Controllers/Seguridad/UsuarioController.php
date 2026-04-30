@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Seguridad;
 
 use App\Http\Controllers\Controller;
 use App\Models\Usuario;
+use App\Support\Observability\Observability;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -38,6 +39,7 @@ class UsuarioController extends Controller
     {
         $data = $request->validate($this->storeRules());
         $usuario = Usuario::create($this->payload($data));
+        Observability::audit($request, 'usuarios', $usuario->id, 'CREAR', null, $usuario);
 
         return response()->json($this->loadUsuario($usuario), 201);
     }
@@ -50,9 +52,11 @@ class UsuarioController extends Controller
     public function update(Request $request, string $id): JsonResponse
     {
         $usuario = Usuario::findOrFail($id);
+        $before = $usuario->withoutRelations()->toArray();
         $data = $request->validate($this->updateRules($usuario->id));
 
         $usuario->update($this->payload($data));
+        Observability::audit($request, 'usuarios', $usuario->id, 'ACTUALIZAR', $before, $usuario->fresh());
 
         return response()->json($this->loadUsuario($usuario));
     }
@@ -60,7 +64,9 @@ class UsuarioController extends Controller
     public function destroy(string $id): JsonResponse
     {
         $usuario = Usuario::findOrFail($id);
+        $before = $usuario->withoutRelations()->toArray();
         $usuario->delete();
+        Observability::audit(request(), 'usuarios', $usuario->id, 'ELIMINAR', $before, null);
 
         return response()->noContent();
     }

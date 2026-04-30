@@ -1,790 +1,570 @@
-{
-  "info": {
-    "_postman_id": "8f6f1c4f-8a2f-4e3a-9d53-0c5f6a6a1b01",
-    "name": "SICIS Backend",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": "Coleccion base para probar auth y catalogos del backend SICIS."
-  },
-  "variable": [
-    {
-      "key": "base_url",
-      "value": "http://127.0.0.1:8000"
-    },
-    {
-      "key": "token",
-      "value": ""
-    },
-    {
-      "key": "categoria_id",
-      "value": "1"
-    },
-    {
-      "key": "categoria_tematica_id",
-      "value": "1"
-    },
-    {
-      "key": "unidad_medida_id",
-      "value": "1"
-    },
-    {
-      "key": "periodicidad_id",
-      "value": "1"
-    },
-    {
-      "key": "estado_dato_id",
-      "value": "1"
-    },
-    {
-      "key": "estado_corrida_id",
-      "value": "1"
-    },
-    {
-      "key": "estado_resultado_id",
-      "value": "1"
-    },
-    {
-      "key": "modalidad_carga_id",
-      "value": "1"
-    }
-  ],
-  "item": [
-    {
-      "name": "Auth",
-      "item": [
-        {
-          "name": "Login",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Login OK', function () {",
-                  "    pm.response.to.have.status(200);",
-                  "});",
-                  "",
-                  "const json = pm.response.json();",
-                  "pm.collectionVariables.set('token', json.token);"
-                ]
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"usuario\": \"admin\",\n  \"password\": \"12345678\"\n}"
-            },
-            "url": {
-              "raw": "{{base_url}}/api/login",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "login"
-              ]
-            },
-            "description": "Autentica al usuario admin y guarda el token en la variable de coleccion `token`."
-          },
-          "response": []
-        },
-        {
-          "name": "Perfil",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{token}}",
-                  "type": "string"
-                }
-              ]
-            },
-            "url": {
-              "raw": "{{base_url}}/api/perfil",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "perfil"
-              ]
-            }
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "Categorias",
-      "item": [
-        {
-          "name": "Listar",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{token}}",
-                  "type": "string"
-                }
-              ]
-            },
-            "url": {
-              "raw": "{{base_url}}/api/catalogos/categorias?per_page=10&activa=true",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "catalogos",
-                "categorias"
-              ],
-              "query": [
-                {
-                  "key": "per_page",
-                  "value": "10"
-                },
-                {
-                  "key": "activa",
-                  "value": "true"
-                }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Crear",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "if (pm.response.code === 201) {",
-                  "    const json = pm.response.json();",
-                  "    pm.collectionVariables.set('categoria_id', String(json.id));",
-                  "}"
-                ]
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{token}}",
-                  "type": "string"
-                }
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"nombre\": \"Seguridad\",\n  \"descripcion\": \"Indicadores de seguridad\",\n  \"orden\": 10,\n  \"activa\": true\n}"
-            },
-            "url": {
-              "raw": "{{base_url}}/api/catalogos/categorias",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "catalogos",
-                "categorias"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Ver",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{token}}",
-                  "type": "string"
-                }
-              ]
-            },
-            "url": {
-              "raw": "{{base_url}}/api/catalogos/categorias/{{categoria_id}}",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "catalogos",
-                "categorias",
-                "{{categoria_id}}"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Editar",
-          "request": {
-            "method": "PUT",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{token}}",
-                  "type": "string"
-                }
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"descripcion\": \"Indicadores de seguridad ciudadana\",\n  \"orden\": 11\n}"
-            },
-            "url": {
-              "raw": "{{base_url}}/api/catalogos/categorias/{{categoria_id}}",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "catalogos",
-                "categorias",
-                "{{categoria_id}}"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Borrar",
-          "request": {
-            "method": "DELETE",
-            "header": [],
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{token}}",
-                  "type": "string"
-                }
-              ]
-            },
-            "url": {
-              "raw": "{{base_url}}/api/catalogos/categorias/{{categoria_id}}",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "catalogos",
-                "categorias",
-                "{{categoria_id}}"
-              ]
-            }
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "Categorias Tematicas",
-      "item": [
-        {
-          "name": "Listar",
-          "request": {
-            "method": "GET",
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{token}}",
-                  "type": "string"
-                }
-              ]
-            },
-            "url": {
-              "raw": "{{base_url}}/api/catalogos/categorias-tematicas?per_page=10",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "catalogos",
-                "categorias-tematicas"
-              ],
-              "query": [
-                {
-                  "key": "per_page",
-                  "value": "10"
-                }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Crear",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "if (pm.response.code === 201) {",
-                  "    const json = pm.response.json();",
-                  "    pm.collectionVariables.set('categoria_tematica_id', String(json.id));",
-                  "}"
-                ]
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{token}}",
-                  "type": "string"
-                }
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"categoria_id\": {{categoria_id}},\n  \"nombre\": \"Atencion primaria\",\n  \"descripcion\": \"Indicadores de atencion primaria\",\n  \"orden\": 1,\n  \"activa\": true\n}"
-            },
-            "url": {
-              "raw": "{{base_url}}/api/catalogos/categorias-tematicas",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "catalogos",
-                "categorias-tematicas"
-              ]
-            }
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "Unidades Medida",
-      "item": [
-        {
-          "name": "Listar",
-          "request": {
-            "method": "GET",
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{token}}",
-                  "type": "string"
-                }
-              ]
-            },
-            "url": {
-              "raw": "{{base_url}}/api/catalogos/unidades-medida?per_page=10",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "catalogos",
-                "unidades-medida"
-              ],
-              "query": [
-                {
-                  "key": "per_page",
-                  "value": "10"
-                }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Crear",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "if (pm.response.code === 201) {",
-                  "    const json = pm.response.json();",
-                  "    pm.collectionVariables.set('unidad_medida_id', String(json.id));",
-                  "}"
-                ]
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{token}}",
-                  "type": "string"
-                }
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"nombre\": \"litros\",\n  \"simbolo\": \"L\",\n  \"descripcion\": \"Unidad de volumen\"\n}"
-            },
-            "url": {
-              "raw": "{{base_url}}/api/catalogos/unidades-medida",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "catalogos",
-                "unidades-medida"
-              ]
-            }
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "Periodicidades",
-      "item": [
-        {
-          "name": "Listar",
-          "request": {
-            "method": "GET",
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{token}}",
-                  "type": "string"
-                }
-              ]
-            },
-            "url": {
-              "raw": "{{base_url}}/api/catalogos/periodicidades?per_page=10",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "catalogos",
-                "periodicidades"
-              ],
-              "query": [
-                {
-                  "key": "per_page",
-                  "value": "10"
-                }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Crear",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "if (pm.response.code === 201) {",
-                  "    const json = pm.response.json();",
-                  "    pm.collectionVariables.set('periodicidad_id', String(json.id));",
-                  "}"
-                ]
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{token}}",
-                  "type": "string"
-                }
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"codigo\": \"BIMESTRAL\",\n  \"nombre\": \"Bimestral\",\n  \"descripcion\": \"Una medicion cada dos meses\"\n}"
-            },
-            "url": {
-              "raw": "{{base_url}}/api/catalogos/periodicidades",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "catalogos",
-                "periodicidades"
-              ]
-            }
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "Estados Y Modalidades",
-      "item": [
-        {
-          "name": "Listar Estados Dato",
-          "request": {
-            "method": "GET",
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{token}}",
-                  "type": "string"
-                }
-              ]
-            },
-            "url": {
-              "raw": "{{base_url}}/api/catalogos/estados-dato?per_page=10",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "catalogos",
-                "estados-dato"
-              ],
-              "query": [
-                {
-                  "key": "per_page",
-                  "value": "10"
-                }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Crear Estado Dato",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "if (pm.response.code === 201) {",
-                  "    const json = pm.response.json();",
-                  "    pm.collectionVariables.set('estado_dato_id', String(json.id));",
-                  "}"
-                ]
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{token}}",
-                  "type": "string"
-                }
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"codigo\": \"EN_REVISION\",\n  \"nombre\": \"En revision\",\n  \"descripcion\": \"Dato en revision\"\n}"
-            },
-            "url": {
-              "raw": "{{base_url}}/api/catalogos/estados-dato",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "catalogos",
-                "estados-dato"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Listar Estados Corrida",
-          "request": {
-            "method": "GET",
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{token}}",
-                  "type": "string"
-                }
-              ]
-            },
-            "url": {
-              "raw": "{{base_url}}/api/catalogos/estados-corrida?per_page=10",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "catalogos",
-                "estados-corrida"
-              ],
-              "query": [
-                {
-                  "key": "per_page",
-                  "value": "10"
-                }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Listar Estados Resultado",
-          "request": {
-            "method": "GET",
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{token}}",
-                  "type": "string"
-                }
-              ]
-            },
-            "url": {
-              "raw": "{{base_url}}/api/catalogos/estados-resultado?per_page=10",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "catalogos",
-                "estados-resultado"
-              ],
-              "query": [
-                {
-                  "key": "per_page",
-                  "value": "10"
-                }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Listar Modalidades Carga",
-          "request": {
-            "method": "GET",
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{token}}",
-                  "type": "string"
-                }
-              ]
-            },
-            "url": {
-              "raw": "{{base_url}}/api/catalogos/modalidades-carga?per_page=10",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "catalogos",
-                "modalidades-carga"
-              ],
-              "query": [
-                {
-                  "key": "per_page",
-                  "value": "10"
-                }
-              ]
-            }
-          },
-          "response": []
-        }
-      ]
-    }
-  ]
+﻿{
+    "info":  {
+                 "_postman_id":  "8f6f1c4f-8a2f-4e3a-9d53-0c5f6a6a1b01",
+                 "name":  "SICIS Backend",
+                 "schema":  "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+                 "description":  "Coleccion actualizada para probar auth, catalogos, indicadores, datos fuente, corridas, observabilidad, seguridad y consultas externas del backend SICIS."
+             },
+    "variable":  [
+                     {
+                         "key":  "base_url",
+                         "value":  "http://127.0.0.1:8000"
+                     },
+                     {
+                         "key":  "token",
+                         "value":  ""
+                     },
+                     {
+                         "key":  "categoria_id",
+                         "value":  "1"
+                     },
+                     {
+                         "key":  "indicador_id",
+                         "value":  "1"
+                     },
+                     {
+                         "key":  "indicador_version_id",
+                         "value":  "1"
+                     },
+                     {
+                         "key":  "dato_fuente_id",
+                         "value":  "1"
+                     },
+                     {
+                         "key":  "dato_fuente_valor_id",
+                         "value":  "1"
+                     },
+                     {
+                         "key":  "corrida_id",
+                         "value":  "1"
+                     },
+                     {
+                         "key":  "usuario_id",
+                         "value":  "1"
+                     },
+                     {
+                         "key":  "rol_id",
+                         "value":  "1"
+                     }
+                 ],
+    "item":  [
+                 {
+                     "name":  "Auth",
+                     "item":  [
+                                  {
+                                      "name":  "Login",
+                                      "event":  [
+                                                    {
+                                                        "listen":  "test",
+                                                        "script":  {
+                                                                       "type":  "text/javascript",
+                                                                       "exec":  [
+                                                                                    "pm.test(\u0027Login OK\u0027, function () {",
+                                                                                    "    pm.response.to.have.status(200);",
+                                                                                    "});",
+                                                                                    "",
+                                                                                    "const json = pm.response.json();",
+                                                                                    "pm.collectionVariables.set(\u0027token\u0027, json.token);"
+                                                                                ]
+                                                                   }
+                                                    }
+                                                ],
+                                      "request":  {
+                                                      "method":  "POST",
+                                                      "header":  [
+                                                                     {
+                                                                         "key":  "Content-Type",
+                                                                         "value":  "application/json"
+                                                                     }
+                                                                 ],
+                                                      "body":  {
+                                                                   "raw":  "{\"usuario\":\"admin\",\"password\":\"12345678\"}",
+                                                                   "mode":  "raw"
+                                                               },
+                                                      "url":  "{{base_url}}/api/login"
+                                                  }
+                                  },
+                                  {
+                                      "name":  "Perfil",
+                                      "request":  {
+                                                      "method":  "GET",
+                                                      "header":  [
+                                                                     {
+                                                                         "key":  "Authorization",
+                                                                         "value":  "Bearer {{token}}"
+                                                                     }
+                                                                 ],
+                                                      "url":  "{{base_url}}/api/perfil"
+                                                  }
+                                  }
+                              ]
+                 },
+                 {
+                     "name":  "Catalogos",
+                     "item":  [
+                                  {
+                                      "name":  "Listar Categorias",
+                                      "request":  {
+                                                      "method":  "GET",
+                                                      "header":  [
+                                                                     {
+                                                                         "key":  "Authorization",
+                                                                         "value":  "Bearer {{token}}"
+                                                                     }
+                                                                 ],
+                                                      "url":  "{{base_url}}/api/catalogos/categorias"
+                                                  }
+                                  },
+                                  {
+                                      "name":  "Crear Categoria",
+                                      "event":  [
+                                                    {
+                                                        "listen":  "test",
+                                                        "script":  {
+                                                                       "type":  "text/javascript",
+                                                                       "exec":  [
+                                                                                    "if (pm.response.code === 201) {",
+                                                                                    "    const json = pm.response.json();",
+                                                                                    "    pm.collectionVariables.set(\u0027categoria_id\u0027, String(json.id));",
+                                                                                    "}"
+                                                                                ]
+                                                                   }
+                                                    }
+                                                ],
+                                      "request":  {
+                                                      "method":  "POST",
+                                                      "header":  [
+                                                                     {
+                                                                         "key":  "Authorization",
+                                                                         "value":  "Bearer {{token}}"
+                                                                     },
+                                                                     {
+                                                                         "key":  "Content-Type",
+                                                                         "value":  "application/json"
+                                                                     }
+                                                                 ],
+                                                      "body":  {
+                                                                   "raw":  "{\"nombre\":\"Tecnologia Civica\",\"descripcion\":\"Indicadores de innovacion y transformacion digital\",\"orden\":50,\"activa\":true}",
+                                                                   "mode":  "raw"
+                                                               },
+                                                      "url":  "{{base_url}}/api/catalogos/categorias"
+                                                  }
+                                  }
+                              ]
+                 },
+                 {
+                     "name":  "Indicadores",
+                     "item":  [
+                                  {
+                                      "name":  "Crear Indicador",
+                                      "event":  [
+                                                    {
+                                                        "listen":  "test",
+                                                        "script":  {
+                                                                       "type":  "text/javascript",
+                                                                       "exec":  [
+                                                                                    "if (pm.response.code === 201) {",
+                                                                                    "    const json = pm.response.json();",
+                                                                                    "    pm.collectionVariables.set(\u0027indicador_id\u0027, String(json.id));",
+                                                                                    "}"
+                                                                                ]
+                                                                   }
+                                                    }
+                                                ],
+                                      "request":  {
+                                                      "method":  "POST",
+                                                      "header":  [
+                                                                     {
+                                                                         "key":  "Authorization",
+                                                                         "value":  "Bearer {{token}}"
+                                                                     },
+                                                                     {
+                                                                         "key":  "Content-Type",
+                                                                         "value":  "application/json"
+                                                                     }
+                                                                 ],
+                                                      "body":  {
+                                                                   "raw":  "{\"codigo_interno\":\"IND-POSTMAN-001\",\"categoria_id\":{{categoria_id}},\"nombre\":\"Indicador Postman\",\"descripcion\":\"Indicador creado desde Postman\",\"publicable\":true,\"sensible\":false,\"activo\":true,\"orden\":120}",
+                                                                   "mode":  "raw"
+                                                               },
+                                                      "url":  "{{base_url}}/api/indicadores"
+                                                  }
+                                  },
+                                  {
+                                      "name":  "Crear Version",
+                                      "event":  [
+                                                    {
+                                                        "listen":  "test",
+                                                        "script":  {
+                                                                       "type":  "text/javascript",
+                                                                       "exec":  [
+                                                                                    "if (pm.response.code === 201) {",
+                                                                                    "    const json = pm.response.json();",
+                                                                                    "    pm.collectionVariables.set(\u0027indicador_version_id\u0027, String(json.id));",
+                                                                                    "}"
+                                                                                ]
+                                                                   }
+                                                    }
+                                                ],
+                                      "request":  {
+                                                      "method":  "POST",
+                                                      "header":  [
+                                                                     {
+                                                                         "key":  "Authorization",
+                                                                         "value":  "Bearer {{token}}"
+                                                                     },
+                                                                     {
+                                                                         "key":  "Content-Type",
+                                                                         "value":  "application/json"
+                                                                     }
+                                                                 ],
+                                                      "body":  {
+                                                                   "raw":  "{\"tipo_indicador_id\":1,\"unidad_medida_id\":2,\"periodicidad_id\":1,\"version\":\"2026.1\",\"formula_tipo\":\"RATIO_CONSTANTE\",\"constante\":100,\"formula_texto\":\"A / B * 100\",\"formula_expression\":\"(A/B)*100\",\"vigente_desde\":\"2026-01-01\",\"vigente_hasta\":\"2026-12-31\",\"activa\":true}",
+                                                                   "mode":  "raw"
+                                                               },
+                                                      "url":  "{{base_url}}/api/indicadores/{{indicador_id}}/versiones"
+                                                  }
+                                  },
+                                  {
+                                      "name":  "Crear Variable",
+                                      "request":  {
+                                                      "method":  "POST",
+                                                      "header":  [
+                                                                     {
+                                                                         "key":  "Authorization",
+                                                                         "value":  "Bearer {{token}}"
+                                                                     },
+                                                                     {
+                                                                         "key":  "Content-Type",
+                                                                         "value":  "application/json"
+                                                                     }
+                                                                 ],
+                                                      "body":  {
+                                                                   "raw":  "{\"dato_fuente_id\":{{dato_fuente_id}},\"codigo_variable\":\"A\",\"rol\":\"NUMERADOR\",\"obligatorio\":true,\"orden\":1,\"descripcion\":\"Variable de ejemplo\"}",
+                                                                   "mode":  "raw"
+                                                               },
+                                                      "url":  "{{base_url}}/api/indicadores/{{indicador_id}}/versiones/{{indicador_version_id}}/variables"
+                                                  }
+                                  }
+                              ]
+                 },
+                 {
+                     "name":  "Datos Fuente",
+                     "item":  [
+                                  {
+                                      "name":  "Crear Dato Fuente",
+                                      "event":  [
+                                                    {
+                                                        "listen":  "test",
+                                                        "script":  {
+                                                                       "type":  "text/javascript",
+                                                                       "exec":  [
+                                                                                    "if (pm.response.code === 201) {",
+                                                                                    "    const json = pm.response.json();",
+                                                                                    "    pm.collectionVariables.set(\u0027dato_fuente_id\u0027, String(json.id));",
+                                                                                    "}"
+                                                                                ]
+                                                                   }
+                                                    }
+                                                ],
+                                      "request":  {
+                                                      "method":  "POST",
+                                                      "header":  [
+                                                                     {
+                                                                         "key":  "Authorization",
+                                                                         "value":  "Bearer {{token}}"
+                                                                     },
+                                                                     {
+                                                                         "key":  "Content-Type",
+                                                                         "value":  "application/json"
+                                                                     }
+                                                                 ],
+                                                      "body":  {
+                                                                   "raw":  "{\"codigo_interno\":\"DF-POSTMAN-001\",\"area_municipal_id\":1,\"unidad_medida_id\":1,\"periodicidad_id\":1,\"modalidad_carga_id\":1,\"nombre\":\"Dato fuente Postman\",\"descripcion\":\"Dato fuente de ejemplo\",\"tipo_dato\":\"decimal\",\"metodo_obtencion\":\"manual\",\"rango_minimo\":0,\"rango_maximo\":1000,\"nivel_geografico\":\"Municipio\",\"activo\":true}",
+                                                                   "mode":  "raw"
+                                                               },
+                                                      "url":  "{{base_url}}/api/datos-fuente"
+                                                  }
+                                  },
+                                  {
+                                      "name":  "Cargar Valor",
+                                      "event":  [
+                                                    {
+                                                        "listen":  "test",
+                                                        "script":  {
+                                                                       "type":  "text/javascript",
+                                                                       "exec":  [
+                                                                                    "if (pm.response.code === 201) {",
+                                                                                    "    const json = pm.response.json();",
+                                                                                    "    pm.collectionVariables.set(\u0027dato_fuente_valor_id\u0027, String(json.id));",
+                                                                                    "}"
+                                                                                ]
+                                                                   }
+                                                    }
+                                                ],
+                                      "request":  {
+                                                      "method":  "POST",
+                                                      "header":  [
+                                                                     {
+                                                                         "key":  "Authorization",
+                                                                         "value":  "Bearer {{token}}"
+                                                                     },
+                                                                     {
+                                                                         "key":  "Content-Type",
+                                                                         "value":  "application/json"
+                                                                     }
+                                                                 ],
+                                                      "body":  {
+                                                                   "raw":  "{\"jurisdiccion_id\":3,\"estado_dato_id\":2,\"modalidad_carga_id\":1,\"valor_crudo\":100,\"periodo_referencia\":\"2026-01-01\",\"fecha_produccion\":\"2026-01-15\",\"vigente\":true}",
+                                                                   "mode":  "raw"
+                                                               },
+                                                      "url":  "{{base_url}}/api/datos-fuente/{{dato_fuente_id}}/valores"
+                                                  }
+                                  },
+                                  {
+                                      "name":  "Validar Valor",
+                                      "request":  {
+                                                      "method":  "POST",
+                                                      "header":  [
+                                                                     {
+                                                                         "key":  "Authorization",
+                                                                         "value":  "Bearer {{token}}"
+                                                                     },
+                                                                     {
+                                                                         "key":  "Content-Type",
+                                                                         "value":  "application/json"
+                                                                     }
+                                                                 ],
+                                                      "body":  {
+                                                                   "raw":  "{\"estado_dato_id\":4,\"valor_utilizado\":95,\"vigente\":true}",
+                                                                   "mode":  "raw"
+                                                               },
+                                                      "url":  "{{base_url}}/api/datos-fuente/{{dato_fuente_id}}/valores/{{dato_fuente_valor_id}}/validar"
+                                                  }
+                                  }
+                              ]
+                 },
+                 {
+                     "name":  "Corridas",
+                     "item":  [
+                                  {
+                                      "name":  "Crear Corrida",
+                                      "event":  [
+                                                    {
+                                                        "listen":  "test",
+                                                        "script":  {
+                                                                       "type":  "text/javascript",
+                                                                       "exec":  [
+                                                                                    "if (pm.response.code === 201) {",
+                                                                                    "    const json = pm.response.json();",
+                                                                                    "    pm.collectionVariables.set(\u0027corrida_id\u0027, String(json.id));",
+                                                                                    "}"
+                                                                                ]
+                                                                   }
+                                                    }
+                                                ],
+                                      "request":  {
+                                                      "method":  "POST",
+                                                      "header":  [
+                                                                     {
+                                                                         "key":  "Authorization",
+                                                                         "value":  "Bearer {{token}}"
+                                                                     },
+                                                                     {
+                                                                         "key":  "Content-Type",
+                                                                         "value":  "application/json"
+                                                                     }
+                                                                 ],
+                                                      "body":  {
+                                                                   "raw":  "{\"jurisdiccion_id\":3,\"titulo\":\"Corrida Postman 2026\",\"periodo_referencia\":\"2026-01-01\",\"observaciones\":\"Prueba desde Postman\"}",
+                                                                   "mode":  "raw"
+                                                               },
+                                                      "url":  "{{base_url}}/api/corridas"
+                                                  }
+                                  },
+                                  {
+                                      "name":  "Ejecutar Corrida",
+                                      "request":  {
+                                                      "method":  "POST",
+                                                      "header":  [
+                                                                     {
+                                                                         "key":  "Authorization",
+                                                                         "value":  "Bearer {{token}}"
+                                                                     },
+                                                                     {
+                                                                         "key":  "Content-Type",
+                                                                         "value":  "application/json"
+                                                                     }
+                                                                 ],
+                                                      "body":  {
+                                                                   "raw":  "{\"observaciones\":\"Ejecucion inicial\"}",
+                                                                   "mode":  "raw"
+                                                               },
+                                                      "url":  "{{base_url}}/api/corridas/{{corrida_id}}/ejecutar"
+                                                  }
+                                  },
+                                  {
+                                      "name":  "Aprobar Corrida",
+                                      "request":  {
+                                                      "method":  "POST",
+                                                      "header":  [
+                                                                     {
+                                                                         "key":  "Authorization",
+                                                                         "value":  "Bearer {{token}}"
+                                                                     },
+                                                                     {
+                                                                         "key":  "Content-Type",
+                                                                         "value":  "application/json"
+                                                                     }
+                                                                 ],
+                                                      "body":  {
+                                                                   "raw":  "{\"observaciones\":\"Aprobacion inicial\"}",
+                                                                   "mode":  "raw"
+                                                               },
+                                                      "url":  "{{base_url}}/api/corridas/{{corrida_id}}/aprobar"
+                                                  }
+                                  },
+                                  {
+                                      "name":  "Publicar Corrida",
+                                      "request":  {
+                                                      "method":  "POST",
+                                                      "header":  [
+                                                                     {
+                                                                         "key":  "Authorization",
+                                                                         "value":  "Bearer {{token}}"
+                                                                     },
+                                                                     {
+                                                                         "key":  "Content-Type",
+                                                                         "value":  "application/json"
+                                                                     }
+                                                                 ],
+                                                      "body":  {
+                                                                   "raw":  "{\"observaciones\":\"Publicacion inicial\"}",
+                                                                   "mode":  "raw"
+                                                               },
+                                                      "url":  "{{base_url}}/api/corridas/{{corrida_id}}/publicar"
+                                                  }
+                                  }
+                              ]
+                 },
+                 {
+                     "name":  "Observabilidad",
+                     "item":  [
+                                  {
+                                      "name":  "Auditoria",
+                                      "request":  {
+                                                      "method":  "GET",
+                                                      "header":  [
+                                                                     {
+                                                                         "key":  "Authorization",
+                                                                         "value":  "Bearer {{token}}"
+                                                                     }
+                                                                 ],
+                                                      "url":  "{{base_url}}/api/observabilidad/auditoria?tabla_afectada=corridas"
+                                                  }
+                                  },
+                                  {
+                                      "name":  "Alertas",
+                                      "request":  {
+                                                      "method":  "GET",
+                                                      "header":  [
+                                                                     {
+                                                                         "key":  "Authorization",
+                                                                         "value":  "Bearer {{token}}"
+                                                                     }
+                                                                 ],
+                                                      "url":  "{{base_url}}/api/observabilidad/alertas?estado=PENDIENTE"
+                                                  }
+                                  },
+                                  {
+                                      "name":  "Notificaciones",
+                                      "request":  {
+                                                      "method":  "GET",
+                                                      "header":  [
+                                                                     {
+                                                                         "key":  "Authorization",
+                                                                         "value":  "Bearer {{token}}"
+                                                                     }
+                                                                 ],
+                                                      "url":  "{{base_url}}/api/observabilidad/notificaciones?usuario_id={{usuario_id}}"
+                                                  }
+                                  }
+                              ]
+                 },
+                 {
+                     "name":  "Seguridad",
+                     "item":  [
+                                  {
+                                      "name":  "Listar Usuarios",
+                                      "request":  {
+                                                      "method":  "GET",
+                                                      "header":  [
+                                                                     {
+                                                                         "key":  "Authorization",
+                                                                         "value":  "Bearer {{token}}"
+                                                                     }
+                                                                 ],
+                                                      "url":  "{{base_url}}/api/seguridad/usuarios"
+                                                  }
+                                  },
+                                  {
+                                      "name":  "Listar Roles",
+                                      "request":  {
+                                                      "method":  "GET",
+                                                      "header":  [
+                                                                     {
+                                                                         "key":  "Authorization",
+                                                                         "value":  "Bearer {{token}}"
+                                                                     }
+                                                                 ],
+                                                      "url":  "{{base_url}}/api/seguridad/roles"
+                                                  }
+                                  }
+                              ]
+                 },
+                 {
+                     "name":  "Externo",
+                     "item":  [
+                                  {
+                                      "name":  "Indicadores Vigentes",
+                                      "request":  {
+                                                      "method":  "GET",
+                                                      "header":  [
+                                                                     {
+                                                                         "key":  "Authorization",
+                                                                         "value":  "Bearer {{token}}"
+                                                                     }
+                                                                 ],
+                                                      "url":  "{{base_url}}/api/externo/indicadores-vigentes"
+                                                  }
+                                  },
+                                  {
+                                      "name":  "Resultados Publicos",
+                                      "request":  {
+                                                      "method":  "GET",
+                                                      "header":  [
+                                                                     {
+                                                                         "key":  "Authorization",
+                                                                         "value":  "Bearer {{token}}"
+                                                                     }
+                                                                 ],
+                                                      "url":  "{{base_url}}/api/externo/resultados-publicos?periodo_desde=2026-01-01\u0026periodo_hasta=2026-12-31"
+                                                  }
+                                  },
+                                  {
+                                      "name":  "Resultados Publicos CSV",
+                                      "request":  {
+                                                      "method":  "GET",
+                                                      "header":  [
+                                                                     {
+                                                                         "key":  "Authorization",
+                                                                         "value":  "Bearer {{token}}"
+                                                                     }
+                                                                 ],
+                                                      "url":  "{{base_url}}/api/externo/resultados-publicos?format=csv"
+                                                  }
+                                  }
+                              ]
+                 }
+             ]
 }

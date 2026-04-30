@@ -20,4 +20,9 @@ class AuditoriaLog extends Model
             'created_at' => 'datetime',
         ];
     }
+
+    public function usuario()
+    {
+        return $this->belongsTo(Usuario::class);
+    }
 }

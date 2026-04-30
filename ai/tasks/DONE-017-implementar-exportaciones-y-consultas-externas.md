@@ -2,7 +2,7 @@
 
 ## Estado
 
-TODO
+DONE
 
 ## Objetivo
 
@@ -10,11 +10,11 @@ Exponer salidas consumibles por terceros para el MVP: exportaciones simples y en
 
 ## Criterios De Aceptacion
 
-- [ ] Definir endpoints de exportacion minima para indicadores y corridas.
-- [ ] Exponer formatos simples consumibles por herramientas externas.
-- [ ] Reutilizar vistas o consultas preparadas cuando convenga.
-- [ ] Aplicar permisos y filtros adecuados para datos publicables.
-- [ ] Documentar alcance y restricciones de estas salidas.
+- [x] Definir endpoints de exportacion minima para indicadores y corridas.
+- [x] Exponer formatos simples consumibles por herramientas externas.
+- [x] Reutilizar vistas o consultas preparadas cuando convenga.
+- [x] Aplicar permisos y filtros adecuados para datos publicables.
+- [x] Documentar alcance y restricciones de estas salidas.
 
 ## Archivos Involucrados
 
@@ -29,3 +29,4 @@ Exponer salidas consumibles por terceros para el MVP: exportaciones simples y en
 - Priorizar JSON y, solo si hace falta para el MVP, CSV simple.
 - No construir reporting complejo en esta etapa.
 - Tener especial cuidado con datos sensibles y resultados no publicables.
+- La primera implementacion usa JSON paginado por defecto y `format=csv` para exportacion simple.

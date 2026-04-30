@@ -13,6 +13,14 @@ Este archivo ordena las tareas pendientes del backend SICIS para que cualquier p
 - `DONE-007` Implementar ABM indicadores
 - `DONE-008` Definir contratos API datos fuente
 - `DONE-009` Implementar flujo de datos fuente
+- `DONE-010` Implementar corridas y snapshots
+- `DONE-011` Implementar auditoria y alertas
+- `DONE-012` Armar pruebas API smoke
+- `DONE-017` Implementar exportaciones y consultas externas
+- `DONE-018` Ampliar pruebas de integracion y permisos
+- `DONE-013` Documentar contratos y colecciones API
+- `DONE-019` Endurecer observabilidad y manejo de errores
+- `DONE-020` Cierre MVP y checklist de release
 - `DONE-014` Implementar conectores API de datos fuente
 - `DONE-015` Definir contratos API de usuarios y roles
 - `DONE-016` Implementar administracion de usuarios y roles
@@ -29,17 +37,11 @@ Este archivo ordena las tareas pendientes del backend SICIS para que cualquier p
 
 ### Fase 3 - Corridas Y Trazabilidad
 
-1. `TODO-010` Implementar corridas y snapshots
-2. `TODO-011` Implementar auditoria y alertas
-3. `TODO-017` Implementar exportaciones y consultas externas
+- Completada con `DONE-010`, `DONE-011` y `DONE-017`
 
 ### Fase 4 - Calidad, Cierre Y Entrega
 
-4. `TODO-012` Armar pruebas API smoke
-5. `TODO-018` Ampliar pruebas de integracion y permisos
-6. `TODO-013` Documentar contratos y colecciones API
-7. `TODO-019` Endurecer observabilidad y manejo de errores
-8. `TODO-020` Cierre MVP y checklist de release
+- Completada con `DONE-012`, `DONE-013`, `DONE-018`, `DONE-019` y `DONE-020`
 
 ## Criterio General
 

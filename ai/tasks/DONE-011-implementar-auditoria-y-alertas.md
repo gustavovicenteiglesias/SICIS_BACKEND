@@ -2,7 +2,7 @@
 
 ## Estado
 
-TODO
+DONE
 
 ## Objetivo
 
@@ -10,12 +10,12 @@ Habilitar trazabilidad tecnica y funcional minima a traves de auditoria, alertas
 
 ## Criterios De Aceptacion
 
-- [ ] Definir cuando se escribe en auditoria.
-- [ ] Crear endpoints de consulta de auditoria.
-- [ ] Crear endpoints de consulta de alertas.
-- [ ] Definir reglas minimas de generacion de alertas.
-- [ ] Aplicar permisos de consulta.
-- [ ] Incluir notificaciones internas basicas asociadas a alertas cuando corresponda.
+- [x] Definir cuando se escribe en auditoria.
+- [x] Crear endpoints de consulta de auditoria.
+- [x] Crear endpoints de consulta de alertas.
+- [x] Definir reglas minimas de generacion de alertas.
+- [x] Aplicar permisos de consulta.
+- [x] Incluir notificaciones internas basicas asociadas a alertas cuando corresponda.
 
 ## Archivos Involucrados
 
@@ -30,3 +30,4 @@ Habilitar trazabilidad tecnica y funcional minima a traves de auditoria, alertas
 - Priorizar observabilidad interna antes que notificaciones complejas.
 - No implementar canales externos complejos si no son necesarios para el MVP.
 - Pensar este modulo como soporte transversal a corridas, validaciones y administracion.
+- La primera implementacion prioriza lectura y generacion automatica desde acciones internas, no una bandeja operativa completa.

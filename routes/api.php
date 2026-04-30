@@ -15,14 +15,19 @@ use App\Http\Controllers\Catalogos\PeriodicidadController;
 use App\Http\Controllers\Catalogos\TipoIndicadorController;
 use App\Http\Controllers\Catalogos\TipoJurisdiccionController;
 use App\Http\Controllers\Catalogos\UnidadMedidaController;
+use App\Http\Controllers\Corridas\CorridaController;
 use App\Http\Controllers\DatosFuente\DatoFuenteController;
 use App\Http\Controllers\DatosFuente\DatoFuenteApiConfigController;
 use App\Http\Controllers\DatosFuente\DatoFuenteApiPathController;
 use App\Http\Controllers\DatosFuente\DatoFuenteValorController;
 use App\Http\Controllers\DatosFuente\EvidenciaDatoController;
+use App\Http\Controllers\Externo\ConsultaExternaController;
 use App\Http\Controllers\Indicadores\IndicadorController;
 use App\Http\Controllers\Indicadores\IndicadorVariableController;
 use App\Http\Controllers\Indicadores\IndicadorVersionController;
+use App\Http\Controllers\Observabilidad\AlertaSistemaController;
+use App\Http\Controllers\Observabilidad\AuditoriaController;
+use App\Http\Controllers\Observabilidad\NotificacionSistemaController;
 use App\Http\Controllers\Seguridad\RolController;
 use App\Http\Controllers\Seguridad\RolPermisoController;
 use App\Http\Controllers\Seguridad\UsuarioController;
@@ -194,5 +199,39 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('roles/{rolId}/permisos', [RolPermisoController::class, 'index']);
         Route::post('roles/{rolId}/permisos', [RolPermisoController::class, 'store']);
         Route::delete('roles/{rolId}/permisos/{permisoId}', [RolPermisoController::class, 'destroy']);
+    });
+
+    Route::prefix('corridas')->middleware('permission:indicadores.ver')->group(function () {
+        Route::get('/', [CorridaController::class, 'index']);
+        Route::get('{id}', [CorridaController::class, 'show']);
+    });
+
+    Route::prefix('corridas')->middleware('permission:corridas.ejecutar')->group(function () {
+        Route::post('/', [CorridaController::class, 'store']);
+        Route::put('{id}', [CorridaController::class, 'update']);
+        Route::post('{id}/ejecutar', [CorridaController::class, 'ejecutar']);
+    });
+
+    Route::prefix('corridas')->middleware('permission:corridas.aprobar')->group(function () {
+        Route::post('{id}/aprobar', [CorridaController::class, 'aprobar']);
+    });
+
+    Route::prefix('corridas')->middleware('permission:resultados.publicar')->group(function () {
+        Route::post('{id}/publicar', [CorridaController::class, 'publicar']);
+    });
+
+    Route::prefix('observabilidad')->middleware('permission:auditoria.ver')->group(function () {
+        Route::get('auditoria', [AuditoriaController::class, 'index']);
+        Route::get('auditoria/{id}', [AuditoriaController::class, 'show']);
+        Route::get('alertas', [AlertaSistemaController::class, 'index']);
+        Route::get('alertas/{id}', [AlertaSistemaController::class, 'show']);
+        Route::get('notificaciones', [NotificacionSistemaController::class, 'index']);
+        Route::get('notificaciones/{id}', [NotificacionSistemaController::class, 'show']);
+    });
+
+    Route::prefix('externo')->middleware('permission:indicadores.ver')->group(function () {
+        Route::get('indicadores-vigentes', [ConsultaExternaController::class, 'indicadoresVigentes']);
+        Route::get('resultados-publicos', [ConsultaExternaController::class, 'resultadosPublicos']);
+        Route::get('corridas-publicadas', [ConsultaExternaController::class, 'corridasPublicadas']);
     });
 });

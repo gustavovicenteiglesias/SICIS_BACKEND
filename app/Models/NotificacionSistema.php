@@ -17,4 +17,14 @@ class NotificacionSistema extends Model
             'enviada_at' => 'datetime',
         ];
     }
+
+    public function alerta()
+    {
+        return $this->belongsTo(AlertaSistema::class, 'alerta_id');
+    }
+
+    public function usuario()
+    {
+        return $this->belongsTo(Usuario::class);
+    }
 }

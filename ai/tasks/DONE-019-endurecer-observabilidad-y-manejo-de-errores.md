@@ -2,7 +2,7 @@
 
 ## Estado
 
-TODO
+DONE
 
 ## Objetivo
 
@@ -10,11 +10,11 @@ Unificar criterios de errores, respuestas operativas y trazabilidad para que el 
 
 ## Criterios De Aceptacion
 
-- [ ] Revisar responses de error mas comunes y estandarizar mensajes.
-- [ ] Revisar validaciones criticas con foco en DX operativa.
-- [ ] Definir puntos minimos de log o auditoria transversal.
-- [ ] Detectar y corregir inconsistencias entre modulos ya implementados.
-- [ ] Documentar convenciones tecnicas resultantes.
+- [x] Revisar responses de error mas comunes y estandarizar mensajes.
+- [x] Revisar validaciones criticas con foco en DX operativa.
+- [x] Definir puntos minimos de log o auditoria transversal.
+- [x] Detectar y corregir inconsistencias entre modulos ya implementados.
+- [x] Documentar convenciones tecnicas resultantes.
 
 ## Archivos Involucrados
 
@@ -27,3 +27,4 @@ Unificar criterios de errores, respuestas operativas y trazabilidad para que el 
 
 - Evitar redisenos masivos.
 - Priorizar consistencia de API y capacidad de diagnostico.
+- Se adopto `request_id` como correlacion minima entre cliente y logs.

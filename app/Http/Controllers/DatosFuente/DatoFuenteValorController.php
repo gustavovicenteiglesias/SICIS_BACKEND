@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\DatoFuente;
 use App\Models\DatoFuenteValor;
 use App\Models\EstadoDato;
+use App\Support\Observability\Observability;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -56,6 +57,7 @@ class DatoFuenteValorController extends Controller
         $payload['fecha_carga'] = now();
 
         $valor = $datoFuente->valores()->create($payload);
+        Observability::audit($request, 'datos_fuente_valores', $valor->id, 'CREAR', null, $valor);
 
         return response()->json($this->loadValor($valor), 201);
     }
@@ -68,6 +70,7 @@ class DatoFuenteValorController extends Controller
     public function update(Request $request, string $datoFuenteId, string $id): JsonResponse
     {
         $valor = $this->findValor($datoFuenteId, $id);
+        $before = $valor->withoutRelations()->toArray();
         $data = $request->validate($this->updateRules());
 
         $this->ensureObservationReason($data['estado_dato_id'] ?? null, $data['observado_motivo'] ?? $valor->observado_motivo);
@@ -75,6 +78,7 @@ class DatoFuenteValorController extends Controller
         $this->ensureRange($valor->datoFuente, $data['valor_utilizado'] ?? null, 'valor_utilizado');
 
         $valor->update($this->payload($data));
+        Observability::audit($request, 'datos_fuente_valores', $valor->id, 'ACTUALIZAR', $before, $valor->fresh());
 
         return response()->json($this->loadValor($valor));
     }
@@ -82,6 +86,7 @@ class DatoFuenteValorController extends Controller
     public function validar(Request $request, string $datoFuenteId, string $id): JsonResponse
     {
         $valor = $this->findValor($datoFuenteId, $id);
+        $before = $valor->withoutRelations()->toArray();
         $data = $request->validate([
             'estado_dato_id' => 'required|integer|exists:estados_dato,id',
             'valor_utilizado' => 'nullable|numeric',
@@ -105,13 +110,43 @@ class DatoFuenteValorController extends Controller
             'validado_at' => now(),
         ]);
 
+        Observability::audit(
+            $request,
+            'datos_fuente_valores',
+            $valor->id,
+            'VALIDAR',
+            $before,
+            $valor->fresh(),
+            $data['observado_motivo'] ?? null
+        );
+
+        if (in_array($estado->codigo, ['OBSERVADO', 'RECHAZADO'], true)) {
+            $destinatario = $valor->usuarioCarga;
+
+            Observability::alertWithInternalNotification(
+                [
+                    'tipo_alerta' => 'DATO_FUENTE_'.$estado->codigo,
+                    'severidad' => $estado->codigo === 'RECHAZADO' ? 'ALTA' : 'MEDIA',
+                    'titulo' => 'Dato fuente '.$estado->nombre,
+                    'mensaje' => 'El valor cargado para "'.$valor->datoFuente->nombre.'" quedo en estado '.$estado->nombre.'.',
+                    'entidad_tipo' => 'datos_fuente_valores',
+                    'entidad_id' => $valor->id,
+                ],
+                $destinatario,
+                'Revision de dato fuente',
+                'El valor del dato fuente "'.$valor->datoFuente->nombre.'" fue marcado como '.$estado->nombre.'. Motivo: '.($data['observado_motivo'] ?? 'Sin detalle adicional.')
+            );
+        }
+
         return response()->json($this->loadValor($valor));
     }
 
     public function destroy(string $datoFuenteId, string $id): JsonResponse
     {
         $valor = $this->findValor($datoFuenteId, $id);
+        $before = $valor->withoutRelations()->toArray();
         $valor->delete();
+        Observability::audit(request(), 'datos_fuente_valores', $valor->id, 'ELIMINAR', $before, null);
 
         return response()->noContent();
     }

@@ -22,4 +22,29 @@ class CorridaSnapshotIndicador extends Model
             'created_at' => 'datetime',
         ];
     }
+
+    public function corrida()
+    {
+        return $this->belongsTo(Corrida::class);
+    }
+
+    public function indicador()
+    {
+        return $this->belongsTo(Indicador::class);
+    }
+
+    public function indicadorVersion()
+    {
+        return $this->belongsTo(IndicadorVersion::class);
+    }
+
+    public function estadoResultado()
+    {
+        return $this->belongsTo(EstadoResultado::class);
+    }
+
+    public function unidadMedida()
+    {
+        return $this->belongsTo(UnidadMedida::class);
+    }
 }

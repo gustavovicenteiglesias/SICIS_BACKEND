@@ -188,6 +188,21 @@ Healthcheck simple:
 GET /
 ```
 
+## Documentacion API
+
+- [Indice de contratos](docs/indice-contratos-api.md)
+- [Guia corta de Postman](docs/guia-postman.md)
+- [Coleccion Postman](docs/SICIS-Backend.postman_collection.json)
+- [Convenciones de errores y observabilidad](docs/convenciones-api-errores.md)
+- [Checklist de release MVP](docs/checklist-release-mvp.md)
+- [Contratos de catalogos](docs/contratos-api-catalogos.md)
+- [Contratos de indicadores](docs/contratos-api-indicadores.md)
+- [Contratos de datos fuente](docs/contratos-api-datos-fuente.md)
+- [Contratos de corridas](docs/contratos-api-corridas.md)
+- [Contratos de observabilidad](docs/contratos-api-observabilidad.md)
+- [Contratos de seguridad interna](docs/contratos-api-usuarios-roles.md)
+- [Contratos de exportaciones y consultas externas](docs/contratos-api-exportaciones.md)
+
 ## Comandos Utiles
 
 Ver rutas:
@@ -235,6 +250,24 @@ vendor\bin\pint
 Antes de usar un agente de IA sobre este repo, leer [docs/guia-trabajo-con-ia.md](docs/guia-trabajo-con-ia.md).
 
 Regla corta: pedirle siempre al agente que lea `AGENTS.md` antes de diagnosticar o tocar codigo.
+
+## Estado MVP
+
+El backend MVP queda cerrado con:
+
+- auth interna
+- seguridad por roles y permisos
+- catalogos
+- indicadores
+- datos fuente
+- corridas y snapshots
+- observabilidad minima
+- exportaciones y consultas externas
+- documentacion de contratos
+- coleccion Postman
+- base de pruebas automatizadas
+
+Para revisar el cierre tecnico y los pendientes conocidos, ver [docs/checklist-release-mvp.md](docs/checklist-release-mvp.md).
 
 ## Problemas Frecuentes
 

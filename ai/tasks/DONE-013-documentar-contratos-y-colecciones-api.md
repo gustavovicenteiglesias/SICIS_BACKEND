@@ -2,7 +2,7 @@
 
 ## Estado
 
-TODO
+DONE
 
 ## Objetivo
 
@@ -10,11 +10,11 @@ Consolidar la documentacion consumible por frontend y QA: contratos, ejemplos y 
 
 ## Criterios De Aceptacion
 
-- [ ] Actualizar README con enlaces utiles.
-- [ ] Mantener al dia la coleccion de Postman.
-- [ ] Crear o actualizar documentos de contratos por modulo.
-- [ ] Dejar ejemplos de request y response para los endpoints clave.
-- [ ] Dejar una guia corta de orden recomendado para probar modulos en Postman.
+- [x] Actualizar README con enlaces utiles.
+- [x] Mantener al dia la coleccion de Postman.
+- [x] Crear o actualizar documentos de contratos por modulo.
+- [x] Dejar ejemplos de request y response para los endpoints clave.
+- [x] Dejar una guia corta de orden recomendado para probar modulos en Postman.
 
 ## Archivos Involucrados
 
@@ -25,3 +25,4 @@ Consolidar la documentacion consumible por frontend y QA: contratos, ejemplos y 
 
 - La documentacion tiene que acompanar al backend, no quedarse atras.
 - Esta tarea deberia ejecutarse al cierre de cada bloque funcional importante si hay desfasajes grandes.
+- Se agregaron un indice de contratos y una guia breve de Postman para facilitar onboarding y QA.

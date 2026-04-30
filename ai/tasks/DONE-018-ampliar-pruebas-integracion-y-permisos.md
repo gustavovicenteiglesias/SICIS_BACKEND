@@ -2,7 +2,7 @@
 
 ## Estado
 
-TODO
+DONE
 
 ## Objetivo
 
@@ -10,11 +10,11 @@ Ampliar la cobertura automatizada sobre modulos criticos del MVP: indicadores, d
 
 ## Criterios De Aceptacion
 
-- [ ] Tests de indicadores y versiones metodologicas cubiertos.
-- [ ] Tests de variables de indicador cubiertos.
-- [ ] Tests de datos fuente y validacion de valores cubiertos.
-- [ ] Tests de permisos diferenciados cubiertos.
-- [ ] Helpers o fixtures reutilizables consolidados.
+- [x] Tests de indicadores y versiones metodologicas cubiertos.
+- [x] Tests de variables de indicador cubiertos.
+- [x] Tests de datos fuente y validacion de valores cubiertos.
+- [x] Tests de permisos diferenciados cubiertos.
+- [x] Helpers o fixtures reutilizables consolidados.
 
 ## Archivos Involucrados
 
@@ -27,3 +27,4 @@ Ampliar la cobertura automatizada sobre modulos criticos del MVP: indicadores, d
 
 - Esta tarea extiende la base creada en la tarea 012.
 - Priorizar casos de negocio y seguridad antes que cobertura cosmetica.
+- Se consolidaron helpers para usuarios con permisos especificos dentro de la suite de tests.

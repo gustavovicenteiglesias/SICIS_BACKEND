@@ -81,3 +81,44 @@
 4. La asignacion de roles se resuelve mediante endpoints propios sobre `usuarios_roles`.
 5. Los permisos efectivos de usuario se exponen como lectura diagnostica.
 6. El contrato propuesto vive en `docs/contratos-api-usuarios-roles.md`.
+
+## Corridas API
+
+1. Los endpoints del modulo corridas viven bajo `/api/corridas`.
+2. La lectura de corridas reutiliza `indicadores.ver`.
+3. La creacion, edicion y ejecucion operativa requieren `corridas.ejecutar`.
+4. La aprobacion requiere `corridas.aprobar`.
+5. La publicacion requiere `resultados.publicar`.
+6. La primera implementacion resuelve formulas simples, priorizando `RATIO_CONSTANTE` y casos de una variable.
+7. La ejecucion usa solo valores `VALIDADO` y `vigente` para la `jurisdiccion` y el `periodo_referencia` de la corrida.
+8. Cada corrida persiste snapshots de datos efectivamente usados y snapshots de resultados por indicador/version.
+9. El contrato propuesto vive en `docs/contratos-api-corridas.md`.
+
+## Observabilidad API
+
+1. Los endpoints de observabilidad viven bajo `/api/observabilidad`.
+2. La consulta de auditoria, alertas y notificaciones requiere `auditoria.ver`.
+3. La escritura de auditoria no se expone por API; se genera desde acciones del sistema.
+4. Las alertas del MVP se generan sobre observaciones o rechazos de datos fuente y sobre problemas operativos de corridas.
+5. Las notificaciones del MVP son internas y se asocian a alertas, sin canales externos automaticos.
+6. El contrato propuesto vive en `docs/contratos-api-observabilidad.md`.
+
+## Consultas Externas Y Exportaciones API
+
+1. Los endpoints de consultas externas viven bajo `/api/externo`.
+2. La consulta reutiliza `indicadores.ver`.
+3. El formato por defecto es JSON paginado.
+4. Las exportaciones CSV se resuelven con `format=csv`.
+5. Se reutilizan las vistas `vw_indicadores_vigentes` y `vw_resultados_publicos` cuando corresponde.
+6. Solo se exponen resultados publicados, publicables y no sensibles para consumo externo.
+7. El contrato propuesto vive en `docs/contratos-api-exportaciones.md`.
+
+## Manejo De Errores Y Observabilidad Tecnica
+
+1. La API expone errores estandarizados en JSON para `401`, `403`, `404`, `422` y `500`.
+2. Todas las respuestas de error incluyen `request_id` y cabecera `X-Request-Id`.
+3. Las validaciones de negocio recuperables priorizan `422`.
+4. Los permisos insuficientes se exponen como `403` consistente mediante `AuthorizationException`.
+5. Los errores internos no devuelven detalles sensibles al cliente.
+6. Las excepciones no esperadas se registran con log estructurado incluyendo `request_id`, `path` y `usuario_id`.
+7. La convencion operativa vive en `docs/convenciones-api-errores.md`.

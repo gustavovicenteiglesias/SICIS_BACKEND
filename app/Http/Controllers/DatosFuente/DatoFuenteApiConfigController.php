@@ -11,6 +11,7 @@ use App\Models\EstadoDato;
 use App\Models\Jurisdiccion;
 use App\Models\ModalidadCarga;
 use Carbon\Carbon;
+use RuntimeException;
 use Illuminate\Http\Client\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -225,12 +226,10 @@ class DatoFuenteApiConfigController extends Controller
                 ]);
             }
 
-            return response()->json([
-                'ok' => false,
-                'mensaje' => 'Ocurrio un error al persistir la importacion.',
-                'detalle' => $e->getMessage(),
-                'importacion' => $importacion,
-            ], 422);
+            throw new RuntimeException(
+                'Ocurrio un error al persistir la importacion. Importacion registrada: '.$importacion->id,
+                previous: $e
+            );
         }
     }
 

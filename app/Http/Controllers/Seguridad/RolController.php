@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Seguridad;
 
 use App\Http\Controllers\Controller;
 use App\Models\Rol;
+use App\Support\Observability\Observability;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -32,6 +33,7 @@ class RolController extends Controller
     {
         $data = $request->validate($this->storeRules());
         $rol = Rol::create($this->payload($data));
+        Observability::audit($request, 'roles', $rol->id, 'CREAR', null, $rol);
 
         return response()->json($this->loadRol($rol), 201);
     }
@@ -44,9 +46,11 @@ class RolController extends Controller
     public function update(Request $request, string $id): JsonResponse
     {
         $rol = Rol::findOrFail($id);
+        $before = $rol->withoutRelations()->toArray();
         $data = $request->validate($this->updateRules($rol->id));
 
         $rol->update($this->payload($data));
+        Observability::audit($request, 'roles', $rol->id, 'ACTUALIZAR', $before, $rol->fresh());
 
         return response()->json($this->loadRol($rol));
     }
@@ -54,7 +58,9 @@ class RolController extends Controller
     public function destroy(string $id): JsonResponse
     {
         $rol = Rol::findOrFail($id);
+        $before = $rol->withoutRelations()->toArray();
         $rol->delete();
+        Observability::audit(request(), 'roles', $rol->id, 'ELIMINAR', $before, null);
 
         return response()->noContent();
     }

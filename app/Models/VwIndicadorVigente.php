@@ -13,4 +13,15 @@ class VwIndicadorVigente extends Model
     protected $primaryKey = 'indicador_version_id';
 
     protected $guarded = [];
+
+    protected function casts(): array
+    {
+        return [
+            'constante' => 'decimal:6',
+            'publicable' => 'boolean',
+            'sensible' => 'boolean',
+            'vigente_desde' => 'date',
+            'vigente_hasta' => 'date',
+        ];
+    }
 }

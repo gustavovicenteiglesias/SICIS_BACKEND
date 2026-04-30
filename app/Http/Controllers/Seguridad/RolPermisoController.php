@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Permiso;
 use App\Models\Rol;
 use App\Models\RolPermiso;
+use App\Support\Observability\Observability;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -34,6 +35,11 @@ class RolPermisoController extends Controller
             'permiso_id' => $data['permiso_id'],
         ]);
 
+        Observability::audit($request, 'roles_permisos', $rol->id, 'ASIGNAR_PERMISO', null, [
+            'rol_id' => $rol->id,
+            'permiso_id' => $data['permiso_id'],
+        ]);
+
         return response()->json([
             'rol' => $rol->fresh('permisos'),
         ], 201);
@@ -48,7 +54,9 @@ class RolPermisoController extends Controller
             ->where('permiso_id', $permisoId)
             ->firstOrFail();
 
+        $before = $asignacion->withoutRelations()->toArray();
         $asignacion->delete();
+        Observability::audit(request(), 'roles_permisos', $rol->id, 'QUITAR_PERMISO', $before, null);
 
         return response()->noContent();
     }

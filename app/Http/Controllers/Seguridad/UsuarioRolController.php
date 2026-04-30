@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Rol;
 use App\Models\Usuario;
 use App\Models\UsuarioRol;
+use App\Support\Observability\Observability;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -39,6 +40,11 @@ class UsuarioRolController extends Controller
             ]
         );
 
+        Observability::audit($request, 'usuarios_roles', $usuario->id, 'ASIGNAR_ROL', null, [
+            'usuario_id' => $usuario->id,
+            'rol_id' => $data['rol_id'],
+        ]);
+
         return response()->json([
             'usuario' => $usuario->fresh('roles'),
         ], 201);
@@ -54,7 +60,9 @@ class UsuarioRolController extends Controller
             ->whereNull('deleted_at')
             ->firstOrFail();
 
+        $before = $asignacion->withoutRelations()->toArray();
         $asignacion->delete();
+        Observability::audit(request(), 'usuarios_roles', $usuario->id, 'QUITAR_ROL', $before, null);
 
         return response()->noContent();
     }

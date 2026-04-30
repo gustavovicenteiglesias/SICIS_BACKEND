@@ -37,6 +37,15 @@ El sistema administra el nucleo de indicadores, datos fuente, validaciones, corr
 - Conectores API de datos fuente implementados con CRUD de configuraciones y paths, prueba tecnica, importacion y trazabilidad de intentos.
 - Contrato inicial del modulo de seguridad interna documentado, cubriendo usuarios, roles, asignaciones y permisos efectivos.
 - Modulo de seguridad interna implementado bajo `/api/seguridad`, con CRUD de usuarios y roles, asignaciones y permisos efectivos.
+- Contrato inicial del modulo de corridas documentado, cubriendo creacion, ejecucion, aprobacion, publicacion y snapshots.
+- Circuito minimo de corridas implementado bajo `/api/corridas`, con persistencia de snapshots de datos usados y resultados de indicadores.
+- Modulo minimo de observabilidad implementado bajo `/api/observabilidad`, con auditoria, alertas y notificaciones internas de consulta.
+- Bloque de consultas externas implementado bajo `/api/externo`, con JSON paginado y exportacion CSV para indicadores vigentes, resultados publicos y corridas publicadas.
+- Suite minima de smoke tests agregada para auth, proteccion, permisos y catalogos base.
+- Cobertura de integracion ampliada con suites para indicadores, versiones, variables y permisos diferenciados de datos fuente.
+- Documentacion consumible por frontend y QA consolidada con indice de contratos, guia corta de Postman y coleccion actualizada.
+- Capa transversal de errores y observabilidad endurecida con `request_id`, respuestas de error estandarizadas y logging estructurado de fallos no esperados.
+- Cierre tecnico del MVP documentado con checklist de release, riesgos abiertos y resumen ejecutivo de estado.
 - Backlog ampliado y ordenado en `ai/tasks/ROADMAP.md` para permitir retomar el proyecto sin depender del contexto conversacional previo.
 
 ## Objetivo MVP Backend

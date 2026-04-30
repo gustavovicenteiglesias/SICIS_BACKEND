@@ -16,4 +16,14 @@ class AlertaSistema extends Model
             'resuelta_at' => 'datetime',
         ];
     }
+
+    public function usuarioAsignado()
+    {
+        return $this->belongsTo(Usuario::class, 'usuario_asignado_id');
+    }
+
+    public function notificaciones()
+    {
+        return $this->hasMany(NotificacionSistema::class, 'alerta_id');
+    }
 }
